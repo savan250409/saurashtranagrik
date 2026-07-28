@@ -1,0 +1,68 @@
+.navbar-collapse-hdie {
+    display: none !important;
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+.rounded-1 {
+    border-radius: 0.5rem;
+}
+.rounded-2 {
+    border-radius: 1.0rem;
+}
+.rounded-3 {
+    border-radius: 1.5rem;
+}
+.rounded-4 {
+    border-radius: 2.0rem;
+}
+.rounded-5 {
+    border-radius: 2.5rem;
+}
+.rounded-6 {
+    border-radius: 3.0rem;
+}
+.rounded-7 {
+    border-radius: 3.5rem;
+}
+.shadow {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+}
+.w-100 {
+    width: 100% !important;
+}
+.float-left {
+    float: left !important;
+}
+.float-right {
+    float: right !important;
+}
+.text-center {
+    text-align: center !important;
+}
+.text-left {
+    text-align: left !important;
+}
+.text-right {
+    text-align: right !important;
+}
+.border-bottom {
+    border-bottom: 1px solid;
+}
+.fw-bold {
+    font-weight: bold !important;
+}
