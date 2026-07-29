@@ -1,69 +1,28 @@
 @extends('layouts.app')
 
-@section('title', 'Shree Saurastra Nagrik Sharafi Mandali LTD')
-
-@push('styles')
-<style type="text/css">
-        table {
-            width: 100%;
-        }
-        table th, table td {
-            border: 1px solid;
-            padding: 10px;
-            color: black;
-            text-align: center;
-        }
-        .fw-bold {
-            font-weight: bold;
-        }
-        .deprt-icon-box:hover {
-            padding: 40px;
-        }
-        .download-box {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .download-box a {
-            text-decoration: none;
-            color: #000;
-            font-size: 18px;
-        }
-        .download-box a i {
-            font-size: 24px;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        .depart-info {
-            margin-bottom: 200px; /* Adjust the margin as needed */
-        }
-    </style>
-@endpush
+@section('title', 'Downloads | Shree Saurashtra Nagrik Sharafi Mandali Ltd.')
+@section('meta', 'Download the balance sheets and profit and loss accounts of the Mandali.')
 
 @section('content')
-<!--Main Content Start-->
-        <div class="main-content">
-            <!--Download Section Start-->
-            <section class="wf100 p75-50 depart-info">
-                <div class="container">
-                    <div class="row text-center mb30 title-style-3">
-                        <h3>Downloads</h3>
-                    </div>
-                    <div class="row">
-                        @foreach ($downloads as $download)
-                        <div class="col-md-6 col-sm-6">
-                            <div class="download-box">
-                                <a href="{{ asset($download->file) }}" download>
-                                    <i class="fas fa-file-pdf"></i> {{ $download->title }}
-                                </a>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-            </section>
+    <div class="page-head">
+        <div class="wrap">
+            <p class="crumb"><a href="{{ route('home') }}">Home</a> &rsaquo; Downloads</p>
+            <h1>Downloads</h1>
+            <p>Published accounts and statements, available as PDF.</p>
         </div>
+    </div>
 
-            <!--Download Section End-->
+    <section class="section">
+        <div class="wrap">
+            <div class="grid grid--2 reveal-group">
+                @foreach ($downloads as $download)
+                    <a class="download-row" href="{{ asset($download->file) }}" download>
+                        <span class="file-icon">@include('partials.icon', ['name' => 'file'])</span>
+                        <span>{{ $download->title }}</span>
+                        <span class="dl-arrow">@include('partials.icon', ['name' => 'download'])</span>
+                    </a>
+                @endforeach
+            </div>
         </div>
-        <!--Main Content End-->
+    </section>
 @endsection

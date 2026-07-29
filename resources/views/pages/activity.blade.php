@@ -1,132 +1,47 @@
 @extends('layouts.app')
 
-@section('title', 'Shree Saurastra Nagrik Sharafi Mandali LTD')
+@section('title', 'Activity | Shree Saurashtra Nagrik Sharafi Mandali Ltd.')
+@section('meta', 'Deposit, savings and loan activities offered by the Mandali.')
 
-@push('styles')
-<style type="text/css">
-        table {
-            width: 100%;
-        }
-        table th, table td {
-            border: 1px solid;
-            padding: 10px;
-            color: black;
-            text-align: center;
-        }
-        .fw-bold {
-            font-weight: bold;
-        }
-        .deprt-icon-box:hover {
-            padding: 40px;
-        }
-    </style>
-@endpush
+@php
+    $activities = [
+        ['Share Member', 'images/Activity/member.png'],
+        ['Fixes Deposit', 'images/Activity/Fixes Deposit.png'],
+        ['Special Fixed Deposit', 'images/Activity/Special Fixed Deposit.png'],
+        ['Monthly Deposit', 'images/Activity/Monthly Deposit.png'],
+        ['Reccuring Deposit', 'images/Activity/Reccuring Deposit.png'],
+        ['Running Saving', 'images/Activity/Running Saving.png'],
+        ['Daily Saving', 'images/Activity/Daily Saving.png'],
+        ['Mortgage Loan', 'images/Activity/Mortgage Loan.png'],
+        ['Gold Loan', 'images/Activity/Gold Loan.png'],
+        ['Jat-Jamingiri Loan', 'images/Activity/Jat-Jamingiri Loan.png'],
+        ['Mortgage CC', 'images/Activity/Mortgage CC.png'],
+        ['Gold CC', 'images/Activity/Gold CC.png'],
+        ['Plaz Loan', 'images/Activity/Plaz Loan.png'],
+    ];
+@endphp
 
 @section('content')
-<!--Main Content Start-->
-        <div class="main-content">
-            <!--Departments & Information Desk Start-->
-            <section class="wf100 p75-50  depart-info">
-                <div class="container">
-                    <div class="row text-center mb30 title-style-3">
-                        <h3>Activity</h3>
-                    </div>
-                    <div class="row">
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/member.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Share Member</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Fixes Deposit.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Fixes Deposit</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Special Fixed Deposit.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Special Fixed Deposit</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Monthly Deposit.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Monthly Deposit</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Reccuring Deposit.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Reccuring Deposit</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Running Saving.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Running Saving</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Daily Saving.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Daily Saving</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Mortgage Loan.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Mortgage Loan</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Gold Loan.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Gold Loan</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Jat-Jamingiri Loan.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Jat-Jamingiri Loan</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Mortgage CC.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Mortgage CC</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Gold CC.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Gold CC</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                        <!--Icon Box Start-->
-                        <div class="col-md-4 col-sm-4">
-                            <div class="deprt-icon-box"> <img src="{{ asset('images/Activity/Plaz Loan.png') }}" alt="" loading="lazy" decoding="async">
-                                <h6> <a href="javascript:;">Plaz Loan</a> </h6>
-                            </div>
-                        </div>
-                        <!--Icon Box End-->
-                    </div>
-                </div>
-            </section>
-            <!--Departments & Information Desk End-->
+    <div class="page-head">
+        <div class="wrap">
+            <p class="crumb"><a href="{{ route('home') }}">Home</a> &rsaquo; Activity</p>
+            <h1>Activity</h1>
+            <p>The deposit, savings and credit facilities we provide to members.</p>
         </div>
-        <!--Main Content End-->
+    </div>
+
+    <section class="section">
+        <div class="wrap">
+            <div class="grid grid--4 reveal-group">
+                @foreach ($activities as [$title, $image])
+                    <article class="card card--hover tile">
+                        <span class="tile-icon">
+                            <img src="{{ asset($image) }}" alt="" loading="lazy" decoding="async">
+                        </span>
+                        <h3>{{ $title }}</h3>
+                    </article>
+                @endforeach
+            </div>
+        </div>
+    </section>
 @endsection

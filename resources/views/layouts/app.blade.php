@@ -1,53 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Shree Saurastra Nagrik Sharafi Mandali Ltd.')</title>
-    <!-- Fonts: fetched in parallel with the stylesheets rather than being
-         discovered inside custom.css. display=swap avoids invisible text. -->
+    <title>@yield('title', 'Shree Saurashtra Nagrik Sharafi Mandali Ltd.')</title>
+    <meta name="description" content="@yield('meta', 'Shree Saurashtra Nagrik Sharafi Sahakari Mandali Ltd., Bagasara - a co-operative credit society serving members across Gujarat with deposits, loans and savings schemes.')">
+    <meta name="theme-color" content="#b3202c" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0e141c" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="{{ asset('images/fav.png') }}" type="image/png">
+
+    {{-- Resolve the theme before first paint. Anything later would flash the
+         wrong colours on a dark-mode visitor's screen. --}}
+    <script>
+        (function () {
+            var root = document.documentElement;
+            try {
+                var stored = localStorage.getItem('theme');
+                var dark = stored ? stored === 'dark'
+                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                root.setAttribute('data-theme', dark ? 'dark' : 'light');
+            } catch (e) { /* storage blocked - keep the light default */ }
+            // Enables the reveal-on-scroll start state. Set here rather than in
+            // CSS so that with JS off the content is never hidden.
+            root.classList.add('js-anim');
+        })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Anek+Gujarati:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- CSS Files -->
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/color.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-    <link rel="icon" href="{{ asset('images/fav.png') }}" type="image/png">
-    {{-- The Revolution Slider stylesheets (~220 KB) are pushed by the only page
-         that renders a slider - see pages/index.blade.php - rather than loaded
-         on all 14 pages. --}}
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;0,900;1,500&family=Inter:wght@400;500;600;700;800&family=Anek+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/site.css') }}" rel="stylesheet">
     @stack('head')
     @stack('styles')
 </head>
 
 <body>
-    @yield('prebody')
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <!--Wrapper Start-->
-    <div class="wrapper">
-        @include('partials.header')
+    <header class="site-header">
+        <div class="wrap bar">
+            <a class="brand" href="{{ route('home') }}">
+                <img src="{{ asset('images/logo-lg.png') }}" width="46" height="46"
+                     alt="Shree Saurashtra Nagrik Sharafi Mandali Ltd.">
+                <span class="brand-text">
+                    <b>Shree Saurashtra Nagrik</b>
+                    <span>Sharafi Sahakari Mandali Ltd.</span>
+                </span>
+            </a>
 
-        @yield('content')
+            <nav class="nav" aria-label="Primary">
+                @foreach (config('site.nav') as $route => $label)
+                    <a href="{{ route($route) }}" @class(['is-active' => request()->routeIs($route)])>{{ $label }}</a>
+                @endforeach
+            </nav>
 
-        @include('partials.footer')
+            <div class="header-actions">
+                <button type="button" class="icon-btn theme-toggle" aria-label="Switch theme">
+                    @include('partials.icon', ['name' => 'sun', 'class' => 'i-sun'])
+                    @include('partials.icon', ['name' => 'moon', 'class' => 'i-moon'])
+                </button>
+                <button type="button" class="icon-btn nav-toggle" aria-expanded="false"
+                        aria-controls="mobile-nav" aria-label="Open menu">
+                    @include('partials.icon', ['name' => 'menu'])
+                </button>
+            </div>
+        </div>
+    </header>
+
+    {{-- Full-screen overlay menu (mobile / tablet). Kept outside <header> so its
+         fixed inset:0 is never affected by the header's own stacking context. --}}
+    <div class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-top">
+            <a class="brand" href="{{ route('home') }}">
+                <img src="{{ asset('images/logo-lg.png') }}" width="34" height="34" alt="">
+            </a>
+            <button type="button" class="mobile-nav-close" aria-label="Close menu">
+                @include('partials.icon', ['name' => 'close'])
+            </button>
+        </div>
+        <nav class="mobile-nav-links" aria-label="Mobile">
+            @foreach (config('site.nav') as $route => $label)
+                <a href="{{ route($route) }}" @class(['is-active' => request()->routeIs($route)])>{{ $label }}</a>
+            @endforeach
+        </nav>
+        <p class="mobile-nav-foot">Shree Saurashtra Nagrik Sharafi Sahakari Mandali Ltd.</p>
     </div>
-    <!--Wrapper End-->
-    <div class="overlay"></div>
 
-    <!-- JS -->
-    {{-- owl.carousel, slick and prettyPhoto were dropped: no page contains the
-         markup they bind to, and every call site in custom.js is already
-         guarded by an $(selector).length check, so nothing references them. --}}
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/custom.js') }}"></script>
+    <main id="main" @class(['no-hero-pad' => request()->routeIs('home')])>
+        @yield('content')
+    </main>
+
+    @include('partials.footer')
+
+    <script src="{{ asset('js/site.js') }}" defer></script>
     @stack('scripts')
 </body>
 

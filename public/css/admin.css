@@ -1,19 +1,67 @@
 /* Admin panel styles. Deliberately self-contained: the panel loads none of the
    public theme's CSS, so the two can never affect each other. */
 
+/* Palette mirrors the public site's warm paper/ink tokens so the panel and the
+   website read as one product. */
 :root {
-    --bg: #f4f6fa;
-    --panel: #ffffff;
-    --ink: #1f2733;
-    --muted: #6b7789;
-    --line: #e2e7ef;
+    --bg: #f4ede3;
+    --panel: #fffdfa;
+    --ink: #201a13;
+    --muted: #5c5140;
+    --line: #e6dbca;
     --brand: #b3202c;
     --brand-dark: #8d1922;
     --ok: #17795e;
     --ok-bg: #e4f5ef;
-    --warn-bg: #fdf1e3;
+    --warn-bg: #fbf0da;
     --danger: #c0392b;
+    color-scheme: light;
 }
+
+[data-theme="dark"] {
+    --bg: #14100c;
+    --panel: #1d1712;
+    --ink: #f5eee3;
+    --muted: #cabda9;
+    --line: #362b1e;
+    --brand: #ff6b52;
+    --brand-dark: #ff8a6e;
+    --ok: #4fd1a5;
+    --ok-bg: #12302a;
+    --warn-bg: #362a13;
+    --danger: #ff7b6b;
+    color-scheme: dark;
+}
+
+/* The sidebar is dark in both themes; in dark mode it sits flush with the page. */
+[data-theme="dark"] .sidebar { background: #1b1510; }
+[data-theme="dark"] .sidebar nav a:hover,
+[data-theme="dark"] .sidebar nav a.active { background: #251d15; }
+[data-theme="dark"] .sidebar .brand { border-bottom-color: #2e2418; }
+[data-theme="dark"] .tile:hover,
+[data-theme="dark"] tbody tr:hover { background: #251d15; }
+[data-theme="dark"] .btn:hover { background: #2a2118; }
+[data-theme="dark"] .btn-primary { color: #180f0a; }
+[data-theme="dark"] .btn-primary:hover { color: #180f0a; }
+[data-theme="dark"] .btn-danger { border-color: #4a2a2a; }
+[data-theme="dark"] .btn-danger:hover { background: #2c1a1a; }
+[data-theme="dark"] .alert-err { background: #2c1a1a; }
+[data-theme="dark"] .login-card { box-shadow: 0 16px 40px rgba(0, 0, 0, .5); }
+[data-theme="dark"] input, [data-theme="dark"] select, [data-theme="dark"] textarea { background: var(--panel); }
+[data-theme="dark"] .pagination .active span { color: #180f0a; }
+
+body { transition: background-color .3s ease, color .3s ease; }
+
+/* theme switch in the top bar */
+.theme-toggle {
+    width: 36px; height: 36px; display: grid; place-items: center;
+    border: 1px solid var(--line); border-radius: 9px;
+    background: var(--panel); color: var(--ink); cursor: pointer; padding: 0;
+}
+.theme-toggle:hover { background: var(--bg); }
+.theme-toggle svg { width: 17px; height: 17px; }
+[data-theme="light"] .theme-toggle .i-moon { display: none; }
+[data-theme="dark"] .theme-toggle .i-sun { display: none; }
 
 * { box-sizing: border-box; }
 
@@ -21,7 +69,7 @@ body {
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font: 15px/1.55 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 a { color: var(--brand); text-decoration: none; }
@@ -33,26 +81,26 @@ a:hover { text-decoration: underline; }
 .sidebar {
     width: 250px;
     flex: 0 0 250px;
-    background: #16202e;
-    color: #c7d2e0;
+    background: #241c14;
+    color: #d8ccb8;
     padding: 18px 0;
 }
 .sidebar .brand {
     display: flex; align-items: center; gap: 10px;
     padding: 0 20px 16px; margin-bottom: 10px;
-    border-bottom: 1px solid #26334a;
+    border-bottom: 1px solid #3a2e1f;
 }
 .sidebar .brand img { width: 34px; height: auto; }
 .sidebar .brand span { font-weight: 700; color: #fff; font-size: 14px; line-height: 1.25; }
 .sidebar nav a {
-    display: block; padding: 9px 20px; color: #c7d2e0; font-size: 14px;
+    display: block; padding: 9px 20px; color: #d8ccb8; font-size: 14px;
     border-left: 3px solid transparent;
 }
-.sidebar nav a:hover { background: #1e2b3d; color: #fff; text-decoration: none; }
-.sidebar nav a.active { background: #1e2b3d; color: #fff; border-left-color: var(--brand); font-weight: 600; }
+.sidebar nav a:hover { background: #33281b; color: #fff; text-decoration: none; }
+.sidebar nav a.active { background: #33281b; color: #fff; border-left-color: var(--brand); font-weight: 600; }
 .sidebar .group-label {
     padding: 16px 20px 6px; font-size: 11px; letter-spacing: .09em;
-    text-transform: uppercase; color: #6d7d94;
+    text-transform: uppercase; color: #9c8a6f;
 }
 
 .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
@@ -87,7 +135,7 @@ a:hover { text-decoration: underline; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
 th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
-tbody tr:hover { background: #fafbfd; }
+tbody tr:hover { background: var(--bg); }
 td img.thumb { width: 54px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid var(--line); }
 .table-wrap { overflow-x: auto; }
 
@@ -100,10 +148,10 @@ td img.thumb { width: 54px; height: 40px; object-fit: cover; border-radius: 4px;
 
 .btn {
     display: inline-block; padding: 8px 14px; border-radius: 7px;
-    border: 1px solid var(--line); background: #fff; color: var(--ink);
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink);
     font-size: 14px; cursor: pointer; font-family: inherit; line-height: 1.35;
 }
-.btn:hover { background: #f2f5f9; text-decoration: none; }
+.btn:hover { background: var(--bg); text-decoration: none; }
 .btn-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
 .btn-primary:hover { background: var(--brand-dark); color: #fff; }
 .btn-sm { padding: 5px 10px; font-size: 13px; }
@@ -116,7 +164,7 @@ td img.thumb { width: 54px; height: 40px; object-fit: cover; border-radius: 4px;
 input[type=text], input[type=email], input[type=password], input[type=number],
 input[type=file], select, textarea {
     width: 100%; padding: 8px 11px; border: 1px solid var(--line);
-    border-radius: 7px; font: inherit; background: #fff; color: var(--ink);
+    border-radius: 7px; font: inherit; background: var(--panel); color: var(--ink);
 }
 input:focus, select:focus, textarea:focus { outline: 2px solid #d8c0c3; border-color: var(--brand); }
 textarea { min-height: 90px; resize: vertical; }
@@ -141,7 +189,7 @@ textarea { min-height: 90px; resize: vertical; }
 .pagination { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 16px; align-items: center; }
 .pagination a, .pagination span {
     padding: 6px 11px; border: 1px solid var(--line); border-radius: 6px;
-    background: #fff; font-size: 13px; color: var(--ink);
+    background: var(--panel); font-size: 13px; color: var(--ink);
 }
 .pagination .active span { background: var(--brand); border-color: var(--brand); color: #fff; }
 .pagination .disabled span { color: #b9c2d0; }

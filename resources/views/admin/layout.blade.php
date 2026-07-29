@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <title>@yield('title', 'Admin') &middot; Saurashtra Nagrik</title>
     <link rel="icon" href="{{ asset('images/fav.png') }}" type="image/png">
+    {{-- Same pre-paint theme resolution as the public site, and the same
+         localStorage key, so the panel matches whatever the site is set to. --}}
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var dark = stored ? stored === 'dark'
+                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+            } catch (e) { /* storage blocked - keep light */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -43,6 +58,10 @@
             <h1>@yield('heading', 'Dashboard')</h1>
             <div class="checkline">
                 <span class="who">{{ auth('admin')->user()?->email }}</span>
+                <button type="button" class="theme-toggle" aria-label="Switch theme">
+                    @include('partials.icon', ['name' => 'sun', 'class' => 'i-sun'])
+                    @include('partials.icon', ['name' => 'moon', 'class' => 'i-moon'])
+                </button>
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <button class="btn btn-sm" type="submit">Log out</button>
@@ -70,5 +89,25 @@
         </div>
     </div>
 </div>
+
+<script>
+    (function () {
+        var root = document.documentElement;
+        var btn = document.querySelector('.theme-toggle');
+        if (!btn) return;
+        function label() {
+            var dark = root.getAttribute('data-theme') === 'dark';
+            btn.setAttribute('title', dark ? 'Light mode' : 'Dark mode');
+            btn.setAttribute('aria-pressed', String(dark));
+        }
+        btn.addEventListener('click', function () {
+            var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', next);
+            try { localStorage.setItem('theme', next); } catch (e) { /* ignore */ }
+            label();
+        });
+        label();
+    })();
+</script>
 </body>
 </html>

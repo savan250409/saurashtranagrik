@@ -1,769 +1,146 @@
 @extends('layouts.app')
 
-@section('title', 'Shree Saurastra Nagrik Sharafi Mandali LTD')
+@section('title', 'Board of Directors | Shree Saurashtra Nagrik Sharafi Mandali Ltd.')
+@section('meta', 'The board of directors and branch board members of Shree Saurashtra Nagrik Sharafi Sahakari Mandali Ltd.')
 
-@push('styles')
-<style type="text/css">table {
-            width: 100%;
-        }
-        table th, table td {
-            border: 1px solid;
-            padding: 10px;
-            color: black;
-        }
-        .h3-team-box {
-            height: 280px;
-            width: 280px;
-            border-radius: 50rem;
-            border: 3px solid rgba(214,43,35,0.5);
-            -webkit-box-shadow: 0px 0px 30px -11px rgba(214,43,35,1);
-            -moz-box-shadow: 0px 0px 30px -11px rgba(214,43,35,1);
-            box-shadow: 0px 0px 30px -11px rgba(214,43,35,1);
-        }
-        .team-info {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            position: relative;
-            padding: 10px 0;
-        }
-        .team-info h6, .team-info strong {
-            color: black;
-        }
-        .item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .h3-team-box:after {
-            display: none;
-        }
-	</style>
-@endpush
+@php
+    // Branch board rosters - static content carried over from the original page.
+    $boardGroups = [
+        ['Ad. Board Member ( Bagasara Branch )', [
+            ['Shri Himmarbhai Khetani', 'Board Member'],
+            ['Shri Piyushbhai Bharakhada', 'Board Member'],
+            ['Shri Keyurbhai Dholariya', 'Board Member'],
+            ['Shri Ketanbhai Dixit', 'Board Member'],
+            ['Shri Jentibhai Makvana', 'Board Member'],
+            ['Shri Dr. Sanjaybhai Sorathiya', 'Board Member'],
+            ['Shri Dineshbhai Kateshiya', 'Board Member'],
+        ]],
+        ['Ad. Board Member ( Kunkavav Branch )', [
+            ['Shri Bharatbhai Dhirubhai Kanani', 'Branch MD'],
+            ['Shri Babubhai Kotadiya', 'Board Member'],
+            ['Shri Viththalbhai Korat', 'Board Member'],
+            ['Shri Dr.Hiteshbhai Bodar', 'Board Member'],
+            ['Shri Priteshbhai Dobariya', 'Board Member'],
+            ['Shri parshotambhai Rakholiya', 'Board Member'],
+            ['Shri Ritaben Bhuva', 'Board Member'],
+        ]],
+        ['Ad. Board Member ( Bhesan Branch )', [
+            ['Shri Jaysukhbhai Gondaliya', 'Branch MD'],
+            ['Shri Bhaveshbhai Trapasiya', 'Board Member'],
+            ['Shri Prakashbhai Savaliya', 'Board Member'],
+            ['Shri Ramjibhai Dobariya', 'Board Member'],
+            ['Shri Sonalben Sojitra', 'Board Member'],
+            ['Shri Pradipbhai Kanpariya', 'Board Member'],
+            ['Shri Bharatbhai Sarkhareliya', 'Board Member'],
+        ]],
+        ['Ad. Board Member ( Amreli Branch )', [
+            ['Shri Divyeshbhai Vekaria', 'Branch MD'],
+            ['Shri Sanjaybhai Malaviya', 'Board Member'],
+            ['Shri Jaysukhbhai Sorathiya', 'Board Member'],
+            ['Shri Dipakbhai Dhanani', 'Board Member'],
+            ['Shri Mukeshbhai Korat', 'Board Member'],
+            ['Shri Arunbhai Der', 'Board Member'],
+            ['Shri Hiteshbhai Khanesha', 'Board Member'],
+            ['Shri Dharmeshbhai Visavaliya', 'Board Member'],
+        ]],
+        ['Ad. Board Member ( Visavadar Branch )', [
+            ['Shri Prakashbhai Savaliya', 'Branch MD'],
+            ['Shri Hasubhai Rabadiya', 'Board Member'],
+            ['Shri Mohitbhai Malaviya', 'Board Member'],
+            ['Shri Rinaben Bhaliya', 'Board Member'],
+            ['Shri Chimanbhai Rafaliya', 'Board Member'],
+            ['Shri Hirenbhai Sojitra', 'Board Member'],
+            ['Shri Manishaben Lakhani', 'Board Member'],
+        ]],
+        ['Ad. Board Member ( Bhalgam Branch )', [
+            ['Shri Dipakbhai Ambaliya', 'Branch MD'],
+            ['Shri Nitinbhai Kotadiya', 'Board Member'],
+            ['Shri Bhupatbhai Lokadiya', 'Board Member'],
+            ['Shri Manishbhai Pansuriya', 'Board Member'],
+            ['Shri Jyotsanaben Godhani', 'Board Member'],
+            ['Shri Dayaben Vaghasiya', 'Board Member'],
+        ]],
+        ['Ad. Board Member ( Chuda Branch )', [
+            ['Shri Arunaben Barariya', 'Branch MD'],
+            ['Shri Jaysukhbhai Vaghasiya', 'Board Member'],
+            ['Shri Sonalben Gajipara', 'Board Member'],
+            ['Shri Sangitaben Dobariya', 'Board Member'],
+            ['Shri Bharatbhai Korat', 'Board Member'],
+            ['Shri Ghanshyambhai Patoliya', 'Board Member'],
+            ['Shri Dalsukhbhai Ansodariya', 'Board Member'],
+            ['Shri Kishanbhai Kathiriya', 'Board Member'],
+            ['Shri Gordhanbhai Bhut', 'Board Member'],
+        ]],
+        ['Ad. Board Member ( Dhari Branch )', [
+            ['Shri Pravinbhai Kasvala', 'Branch MD'],
+            ['Shri Vinubhai Katharotiya', 'Board Member'],
+            ['Shri Bhavsukhbhai Vaghela', 'Board Member'],
+            ['Shri Sureshbhai Antala', 'Board Member'],
+            ['Shri Hemalbhai Jaysval', 'Board Member'],
+            ['Shri Mansukhbhai Vastani', 'Board Member'],
+            ['Shri Anitaben Shiroya', 'Board Member'],
+        ]],
+        ['Ad. Board Member ( Ahmedabad Branch )', [
+            ['Shri Sajanbhai Pethani', 'Board Member'],
+            ['Shri Vipulbhai Sangani', 'Board Member'],
+            ['Shri Manojbhai Savaliya', 'Board Member'],
+            ['Shri Jigneshbhai Savaliya', 'Board Member'],
+            ['Shri Prakashbhai Gevariya', 'Board Member'],
+            ['Shri Bhaveshbhai Tanti', 'Board Member'],
+            ['Shri Sagarbhai Hirpara', 'Board Member'],
+        ]],
+    ];
+@endphp
 
 @section('content')
-<!--Main Content Start-->
+    <div class="page-head">
+        <div class="wrap">
+            <p class="crumb"><a href="{{ route('home') }}">Home</a> &rsaquo; Board of Directors</p>
+            <h1>Board of Directors</h1>
+            <p>The elected members who guide the Mandali.</p>
+        </div>
+    </div>
 
-<div class="main-content"><!--Departments & Information Desk Start-->
-<section class="wf100 p75-50  depart-info">
-<div class="container">
-<div class="row text-center mb30 title-style-3">
-<h3>Board of Directors</h3>
-</div>
+    <section class="section">
+        <div class="wrap">
+            <div class="grid grid--4 reveal-group">
+                @foreach ($directors as $director)
+                    <article class="card card--hover person">
+                        <div class="person-photo">
+                            <img src="{{ asset($director->photo) }}" alt="{{ $director->name }}"
+                                 loading="lazy" decoding="async">
+                        </div>
+                        <div class="card-body">
+                            <h3>{{ $director->name }}</h3>
+                            <span class="role">{{ $director->designation }}</span>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </div>
+    </section>
 
-<div class="row mt-5 text-capitalize" style="display: flex;flex-wrap: wrap;justify-content: center;">
-@foreach ($directors as $director)
-<div class="col-lg-4 col-md-4 col-sm-6{{ $loop->index >= 4 ? ' mt-3' : '' }}">
-<div class="owl-item active">
-<div class="item">
-<div class="h3-team-box"><img alt="" src="{{ asset($director->photo) }}" loading="lazy" decoding="async" /></div>
+    <section class="section section--subtle">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="eyebrow">Branch boards</span>
+                <h2>Advisory Board Members</h2>
+                <p>Board members appointed at each branch.</p>
+            </div>
 
-<div class="team-info">
-<h6>{{ $director->name }}</h6>
-<strong>{{ $director->designation }}</strong></div>
-</div>
-</div>
-</div>
-@endforeach
+            @foreach ($boardGroups as [$heading, $people])
+                <div class="reveal" style="margin-bottom:34px">
+                    <h3 style="font-size:1.05rem;margin-bottom:14px">{{ $heading }}</h3>
+                    <div class="grid grid--4">
+                        @foreach ($people as [$name, $role])
+                            <div class="card" style="padding:16px 18px">
+                                <p style="margin:0;font-weight:600;font-size:.94rem">{{ $name }}</p>
+                                <p style="margin:0;color:var(--text-muted);font-size:.82rem">{{ $role }}</p>
+                            </div>
+                        @endforeach
                     </div>
-
-<div class="row text-center pb-0 mb-0 mt-5 pt-5 title-style-3">
-    <h3>Ad. Board Member ( Bagasara Branch )</h3>
-</div>
-
-<div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Himmarbhai Khetani</a></h6>
-                <p>Board Member</p>
-            </div>
+                </div>
+            @endforeach
         </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Piyushbhai Bharakhada</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Keyurbhai Dholariya</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Ketanbhai Dixit</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Jentibhai Makvana</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Dr. Sanjaybhai Sorathiya</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Dineshbhai Kateshiya</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row text-center pb-0 mb-0 mt-5 pt-5 title-style-3">
-    <h3>Ad. Board Member ( Kunkavav Branch )</h3>
-</div>
-
-<div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Bharatbhai Dhirubhai Kanani</a></h6>
-                <p>Branch MD</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Babubhai Kotadiya</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Viththalbhai Korat</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Dr.Hiteshbhai Bodar</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Priteshbhai Dobariya</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri parshotambhai Rakholiya</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
-        <div class="news-box">
-            <div class="new-txt">
-                <h6><a href="javascript:;">Shri Ritaben Bhuva</a></h6>
-                <p>Board Member</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row text-center pb-0 mb-0 mt-5 pt-5 title-style-3">
-<h3>Ad. Board Member ( Bhesan Branch )</h3>
-</div>
-
-<div class="row">
-<div class="col-lg-6 col-md-6 col-sm-6">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Jaysukhbhai Gondaliya</a></h6>
-
-<p>Branch MD</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Bhaveshbhai Trapasiya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Prakashbhai Savaliya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Ramjibhai Dobariya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Sonalben Sojitra</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Pradipbhai Kanpariya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Bharatbhai Sarkhareliya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="row text-center pb-0 mb-0 mt-5 pt-5 title-style-3">
-<h3>Ad. Board Member ( Amreli Branch )</h3>
-</div>
-
-<div class="row">
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Divyeshbhai Vekaria</a></h6>
-
-<p>Branch MD</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Sanjaybhai Malaviya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Jaysukhbhai Sorathiya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Dipakbhai Dhanani</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Mukeshbhai Korat</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Arunbhai Der</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Hiteshbhai Khanesha</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Dharmeshbhai Visavaliya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="row text-center pb-0 mb-0 mt-5 pt-5 title-style-3">
-<h3>Ad. Board Member ( Visavadar Branch )</h3>
-</div>
-
-<div class="row">
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Prakashbhai Savaliya</a></h6>
-
-<p>Branch MD</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Hasubhai Rabadiya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Mohitbhai Malaviya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Rinaben Bhaliya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Chimanbhai Rafaliya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Hirenbhai Sojitra</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Manishaben Lakhani</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-</div>
-
-<div class="row text-center pb-0 mb-0 mt-5 pt-5 title-style-3">
-<h3>Ad. Board Member ( Bhalgam Branch )</h3>
-</div>
-
-<div class="row">
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Dipakbhai Ambaliya</a></h6>
-
-<p>Branch MD</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Nitinbhai Kotadiya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Bhupatbhai Lokadiya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Manishbhai Pansuriya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Jyotsanaben Godhani</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Dayaben Vaghasiya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="row text-center pb-0 mb-0 mt-5 pt-5 title-style-3">
-<h3>Ad. Board Member ( Chuda Branch )</h3>
-</div>
-
-<div class="row">
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Arunaben Barariya</a></h6>
-
-<p>Branch MD</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Jaysukhbhai Vaghasiya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Sonalben Gajipara</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Sangitaben Dobariya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Bharatbhai Korat</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Ghanshyambhai Patoliya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Dalsukhbhai Ansodariya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Kishanbhai Kathiriya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Gordhanbhai Bhut</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-</div>
-
-
-<div class="row text-center pb-0 mb-0 mt-5 pt-5 title-style-3">
-<h3>Ad. Board Member ( Dhari Branch )</h3>
-</div>
-
-<div class="row">
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Pravinbhai Kasvala</a></h6>
-
-<p>Branch MD</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Vinubhai Katharotiya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Bhavsukhbhai Vaghela</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Sureshbhai Antala</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Hemalbhai Jaysval</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Mansukhbhai Vastani</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Anitaben Shiroya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="row text-center pb-0 mb-0 mt-5 pt-5 title-style-3">
-<h3>Ad. Board Member ( Ahmedabad Branch )</h3>
-</div>
-
-<div class="row">
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Sajanbhai Pethani</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Vipulbhai Sangani</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Manojbhai Savaliya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Jigneshbhai Savaliya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Prakashbhai Gevariya</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Bhaveshbhai Tanti</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 pt-3">
-<div class="news-box">
-<div class="new-txt">
-<h6><a href="javascript:;">Shri Sagarbhai Hirpara</a></h6>
-
-<p>Board Member</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!--Departments & Information Desk End--></div>
-<!--Main Content End-->
+    </section>
 @endsection

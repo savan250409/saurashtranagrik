@@ -61,6 +61,36 @@ server. The files now live in `public/media`, and `routes/web.php` 301s the
 legacy `/downloads/<file>` URLs to their new location, so old direct links to
 the PDFs and videos still work.
 
+## Design system
+
+The site was rebuilt on a single stylesheet, `public/css/site.css`, plus
+`public/js/site.js` (8 KB, no dependencies). Together they replaced Bootstrap 3,
+jQuery, Font Awesome, the Revolution Slider and the old theme CSS — front-end
+assets went from **1867 KB to 41 KB**.
+
+**Light and dark themes.** Every colour is a custom property declared twice, and
+`<html>` carries `data-theme="light|dark"`. Switching themes is one attribute
+change. A tiny inline script in `<head>` resolves the theme *before first paint*,
+so a dark-mode visitor never sees a white flash. The choice is stored in
+`localStorage`; with nothing stored the site follows the operating system, and an
+explicit choice always wins. The admin panel reads the same key, so the two match.
+
+**Icons** are inline SVG via `resources/views/partials/icon.blade.php`. They
+inherit `currentColor`, so they theme for free — and the missing-glyph boxes the
+old icon font produced cannot happen.
+
+**Animation** is deliberately fail-safe. The reveal-on-scroll start state is
+scoped under a `.js-anim` class that the head script adds, so with JavaScript off
+nothing is ever stuck at `opacity: 0`. Everything collapses to no-ops under
+`prefers-reduced-motion: reduce`.
+
+**The hero carousel** is ~60 lines of vanilla JS. Only the first slide carries a
+`src`; the rest sit in `data-src` and are fetched one slide ahead, so the home
+page loads 2 images instead of 11 (2741 KB → 914 KB).
+
+Navigation lives in `config/site.php` so the desktop nav, the mobile drawer and
+the footer can never drift apart.
+
 ## Admin panel
 
 A single-operator CMS for the editable parts of the site.

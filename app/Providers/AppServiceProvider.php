@@ -32,6 +32,15 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'heroSlides' => HeroSlide::published()->get(),
                 'homeVideos' => HomeVideo::published()->get(),
+                // Every figure here is either drawn from the chairman's own
+                // published statement (16 years) or counted live from the
+                // database, never invented.
+                'stats' => [
+                    ['target' => 16, 'suffix' => '+', 'label' => 'Years of trust'],
+                    ['target' => Branch::published()->count(), 'suffix' => '', 'label' => 'Branches'],
+                    ['target' => Loan::published()->count(), 'suffix' => '', 'label' => 'Loan schemes'],
+                    ['target' => Manager::published()->count(), 'suffix' => '', 'label' => 'Managers'],
+                ],
             ]);
         });
 
