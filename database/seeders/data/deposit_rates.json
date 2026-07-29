@@ -1,0 +1,65 @@
+[
+  {
+    "icon": "images/Loan/loan.png",
+    "title": "30 to 45 Days",
+    "rate": "4%",
+    "sort_order": 1,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/loan.png",
+    "title": "46 to 91 Days",
+    "rate": "4.5%",
+    "sort_order": 2,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/loan.png",
+    "title": "92 to 182 Days",
+    "rate": "5%",
+    "sort_order": 3,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/loan.png",
+    "title": "183 to 364 Days",
+    "rate": "5.5%",
+    "sort_order": 4,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/loan.png",
+    "title": "1 to 2 Years",
+    "rate": "10%",
+    "sort_order": 5,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/loan.png",
+    "title": "2 to 3 Years",
+    "rate": "10.5%",
+    "sort_order": 6,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/loan.png",
+    "title": "3 to 5 Years",
+    "rate": "11%",
+    "sort_order": 7,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/loan.png",
+    "title": "7 Years",
+    "rate": "Double",
+    "sort_order": 8,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/loan.png",
+    "title": "Pension Scheme",
+    "rate": "9%",
+    "sort_order": 9,
+    "is_active": true
+  }
+]

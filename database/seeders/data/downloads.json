@@ -1,0 +1,38 @@
+[
+  {
+    "file": "media/Balance Sheet.pdf",
+    "title": "Balance Sheet (Year-2024)",
+    "sort_order": 1,
+    "is_active": true
+  },
+  {
+    "file": "media/Profit & Loss.pdf",
+    "title": "Profit and Loss (Year-2024)",
+    "sort_order": 2,
+    "is_active": true
+  },
+  {
+    "file": "media/Paku Sarvaiyu - 31-03-24 - Final - Copy.pdf",
+    "title": "Balance Sheet (Year-2025)",
+    "sort_order": 3,
+    "is_active": true
+  },
+  {
+    "file": "media/Nafa Nukshan - 31-03-24 - Final - Copy.pdf",
+    "title": "Profit and Loss (Year-2025)",
+    "sort_order": 4,
+    "is_active": true
+  },
+  {
+    "file": "media/Paku Sarvaiyu 2026.pdf",
+    "title": "Balance Sheet (Year-2026)",
+    "sort_order": 5,
+    "is_active": true
+  },
+  {
+    "file": "media/Nafa Nukshan 2026.pdf",
+    "title": "Profit and Loss (Year-2026)",
+    "sort_order": 6,
+    "is_active": true
+  }
+]

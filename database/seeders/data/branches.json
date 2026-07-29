@@ -1,0 +1,101 @@
+[
+  {
+    "name": "Bagasara",
+    "address": "Samarth Saurashtra Building, Amarpara, Bagasara,\nDist. - Amreli",
+    "phone": "(02796) 220 525",
+    "mobile": "94845 29400",
+    "color_class": "c1",
+    "sort_order": 1,
+    "is_active": true
+  },
+  {
+    "name": "Kunkavav",
+    "address": "Giriraj Shoping, First Floor, Bagasara Road, Kunkavav,\nDist. - Amreli",
+    "phone": null,
+    "mobile": "63541 28061",
+    "color_class": "c2",
+    "sort_order": 2,
+    "is_active": true
+  },
+  {
+    "name": "Bhesan",
+    "address": "2nd Floor, Sat Complex, Opposite Mahila Swaminarayan Temple, Bhesan,\nDist. - Junagadh",
+    "phone": "(02873) 253 111",
+    "mobile": null,
+    "color_class": "c3",
+    "sort_order": 3,
+    "is_active": true
+  },
+  {
+    "name": "Chuda",
+    "address": "Gelexi Complexe, Nani Pati, Chuda (Sorath),\nDist. - Junagadh",
+    "phone": null,
+    "mobile": "87800 88742",
+    "color_class": "c4",
+    "sort_order": 4,
+    "is_active": true
+  },
+  {
+    "name": "Visavadar",
+    "address": "Office No.13 - 14, Lakshmi Complex, Vora Society, Near Jakat Naka, Visavadar,\nDist. - Junagadh",
+    "phone": "(02873) 296 096",
+    "mobile": null,
+    "color_class": "c5",
+    "sort_order": 5,
+    "is_active": true
+  },
+  {
+    "name": "Bhalgam",
+    "address": "L.T. RAJANI Sahakar Bhavan, Opposite Shiv Temple, Shapar Road, Bhalgam,\nDist. - Junagadh",
+    "phone": null,
+    "mobile": "99782 86999",
+    "color_class": "c6",
+    "sort_order": 6,
+    "is_active": true
+  },
+  {
+    "name": "Amreli",
+    "address": "Samarth Saurashtra, Near Croma Mall, Shri Panchnath Mahadev Chowk, Old Marketing Yard, City - Amreli,\nDist. - Amreli",
+    "phone": "(02792) 299 051",
+    "mobile": "63511 42834",
+    "color_class": "c6",
+    "sort_order": 7,
+    "is_active": true
+  },
+  {
+    "name": "Dhari",
+    "address": "Opposite G.N. Damani High School, Amreli Road, Dhari,\nDist. - Amreli",
+    "phone": "(02797) 296 400",
+    "mobile": null,
+    "color_class": "c2",
+    "sort_order": 8,
+    "is_active": true
+  },
+  {
+    "name": "Ahmedabad",
+    "address": "Office No.107 - 108, First Floor, Meru Mount Plaza, Town Plaza, Near Cross Road, Bhakti Circle Road, Ahmedabad,\nDist. - Ahmedabad",
+    "phone": null,
+    "mobile": null,
+    "color_class": "c1",
+    "sort_order": 9,
+    "is_active": true
+  },
+  {
+    "name": "Junagadh",
+    "address": "105, First Floor, Perry Plaza Complex, On Rangoli Ice Cream, Near Sardar Bag, Zanzarda Road,\nDist. - Junagadh",
+    "phone": null,
+    "mobile": "94291 62117",
+    "color_class": "c2",
+    "sort_order": 10,
+    "is_active": true
+  },
+  {
+    "name": "Mendarda",
+    "address": "Dr. Shri Ajmera New Commercial Complex, First Floor, Opposite S.T Bus Station,\nDist. - Junagadh",
+    "phone": null,
+    "mobile": "92134 90500",
+    "color_class": "c3",
+    "sort_order": 11,
+    "is_active": true
+  }
+]

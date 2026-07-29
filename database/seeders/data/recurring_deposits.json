@@ -1,0 +1,202 @@
+[
+  {
+    "term": "1 Year",
+    "rate": "9%",
+    "rows": [
+      {
+        "amount": "100",
+        "maturity": "1259"
+      },
+      {
+        "amount": "200",
+        "maturity": "2517"
+      },
+      {
+        "amount": "500",
+        "maturity": "6293"
+      },
+      {
+        "amount": "1000",
+        "maturity": "12585"
+      },
+      {
+        "amount": "2000",
+        "maturity": "25170"
+      },
+      {
+        "amount": "2500",
+        "maturity": "31463"
+      },
+      {
+        "amount": "5000",
+        "maturity": "62925"
+      },
+      {
+        "amount": "10000",
+        "maturity": "125850"
+      }
+    ],
+    "sort_order": 1,
+    "is_active": true
+  },
+  {
+    "term": "2 Year",
+    "rate": "9.25%",
+    "rows": [
+      {
+        "amount": "100",
+        "maturity": "2631"
+      },
+      {
+        "amount": "200",
+        "maturity": "5263"
+      },
+      {
+        "amount": "500",
+        "maturity": "13156"
+      },
+      {
+        "amount": "1000",
+        "maturity": "26313"
+      },
+      {
+        "amount": "2000",
+        "maturity": "52625"
+      },
+      {
+        "amount": "2500",
+        "maturity": "65781"
+      },
+      {
+        "amount": "5000",
+        "maturity": "131563"
+      },
+      {
+        "amount": "10000",
+        "maturity": "263125"
+      }
+    ],
+    "sort_order": 2,
+    "is_active": true
+  },
+  {
+    "term": "3 Year",
+    "rate": "9.5%",
+    "rows": [
+      {
+        "amount": "100",
+        "maturity": "4127"
+      },
+      {
+        "amount": "200",
+        "maturity": "8255"
+      },
+      {
+        "amount": "500",
+        "maturity": "20636"
+      },
+      {
+        "amount": "1000",
+        "maturity": "41273"
+      },
+      {
+        "amount": "2000",
+        "maturity": "82545"
+      },
+      {
+        "amount": "2500",
+        "maturity": "103181"
+      },
+      {
+        "amount": "5000",
+        "maturity": "206363"
+      },
+      {
+        "amount": "10000",
+        "maturity": "412725"
+      }
+    ],
+    "sort_order": 3,
+    "is_active": true
+  },
+  {
+    "term": "4 Year",
+    "rate": "9.75%",
+    "rows": [
+      {
+        "amount": "100",
+        "maturity": "5756"
+      },
+      {
+        "amount": "200",
+        "maturity": "11511"
+      },
+      {
+        "amount": "500",
+        "maturity": "28778"
+      },
+      {
+        "amount": "1000",
+        "maturity": "57555"
+      },
+      {
+        "amount": "2000",
+        "maturity": "115110"
+      },
+      {
+        "amount": "2500",
+        "maturity": "143887"
+      },
+      {
+        "amount": "5000",
+        "maturity": "287775"
+      },
+      {
+        "amount": "10000",
+        "maturity": "575550"
+      }
+    ],
+    "sort_order": 4,
+    "is_active": true
+  },
+  {
+    "term": "5 Year",
+    "rate": "10%",
+    "rows": [
+      {
+        "amount": "100",
+        "maturity": "7525"
+      },
+      {
+        "amount": "200",
+        "maturity": "15050"
+      },
+      {
+        "amount": "500",
+        "maturity": "37625"
+      },
+      {
+        "amount": "1000",
+        "maturity": "75250"
+      },
+      {
+        "amount": "2000",
+        "maturity": "150500"
+      },
+      {
+        "amount": "2500",
+        "maturity": "188125"
+      },
+      {
+        "amount": "5000",
+        "maturity": "376250"
+      },
+      {
+        "amount": "10000",
+        "maturity": "752500"
+      }
+    ],
+    "sort_order": 5,
+    "is_active": true
+  }
+]

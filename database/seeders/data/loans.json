@@ -1,0 +1,51 @@
+[
+  {
+    "icon": "images/Loan/Gold Loan.png",
+    "title": "Gold Loan",
+    "rate": "9%",
+    "sort_order": 1,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/Mortgage Loan.png",
+    "title": "Mortgage Loan (Property against loan)",
+    "rate": "14%",
+    "sort_order": 2,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/Plaze Loan.png",
+    "title": "Pledge Loan (Deposit Agaist Loan)",
+    "rate": "13%",
+    "sort_order": 3,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/Jat-Jamingiri Loan.png",
+    "title": "Jat-Jamingiri Loan (with compansation)",
+    "rate": "16%",
+    "sort_order": 4,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/Gold Cc.png",
+    "title": "Gold Cc",
+    "rate": "12%",
+    "sort_order": 5,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/Mortgage Cc.png",
+    "title": "Mortgage Cc (Property against loan)",
+    "rate": "14%",
+    "sort_order": 6,
+    "is_active": true
+  },
+  {
+    "icon": "images/Loan/Nari Gaurav Kamdhenu Loan.png",
+    "title": "Nari Gaurav Kamdhenu Loan",
+    "rate": "14%",
+    "sort_order": 7,
+    "is_active": true
+  }
+]

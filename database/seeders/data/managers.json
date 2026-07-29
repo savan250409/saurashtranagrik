@@ -1,0 +1,137 @@
+[
+  {
+    "designation": "General Manager",
+    "name": "Jaydipsinh Rathod",
+    "phone": "98984 88232",
+    "color_class": "c1",
+    "group": "head_office",
+    "sort_order": 1,
+    "is_active": true
+  },
+  {
+    "designation": "Account Manager",
+    "name": "Ajaybhai M. Nakum",
+    "phone": "97142 38210",
+    "color_class": "c4",
+    "group": "head_office",
+    "sort_order": 2,
+    "is_active": true
+  },
+  {
+    "designation": "Financial Manager",
+    "name": "Chirag K. Kanpariya",
+    "phone": "97274 58315",
+    "color_class": "c3",
+    "group": "head_office",
+    "sort_order": 3,
+    "is_active": true
+  },
+  {
+    "designation": "Development Manager",
+    "name": "Alpeshbhai Parmar",
+    "phone": "63529 76620",
+    "color_class": "c5",
+    "group": "head_office",
+    "sort_order": 4,
+    "is_active": true
+  },
+  {
+    "designation": "Bagasara",
+    "name": "Ghanshyam G. Mitaliya",
+    "phone": null,
+    "color_class": "c1",
+    "group": "branch",
+    "sort_order": 5,
+    "is_active": true
+  },
+  {
+    "designation": "Kunkavav",
+    "name": "Ankit V. Vaghasiya",
+    "phone": null,
+    "color_class": "c2",
+    "group": "branch",
+    "sort_order": 6,
+    "is_active": true
+  },
+  {
+    "designation": "Bhesan",
+    "name": "Ajay M. Nakum",
+    "phone": null,
+    "color_class": "c3",
+    "group": "branch",
+    "sort_order": 7,
+    "is_active": true
+  },
+  {
+    "designation": "Chuda",
+    "name": "Ketan G. Kateshiya",
+    "phone": null,
+    "color_class": "c4",
+    "group": "branch",
+    "sort_order": 8,
+    "is_active": true
+  },
+  {
+    "designation": "Visavadar",
+    "name": "Jaydip N. Chovatiya",
+    "phone": null,
+    "color_class": "c5",
+    "group": "branch",
+    "sort_order": 9,
+    "is_active": true
+  },
+  {
+    "designation": "Bhalgam",
+    "name": "Bhautik N. Chovatiya",
+    "phone": null,
+    "color_class": "c6",
+    "group": "branch",
+    "sort_order": 10,
+    "is_active": true
+  },
+  {
+    "designation": "Amreli",
+    "name": "Chirag M. Parmar",
+    "phone": null,
+    "color_class": "c3",
+    "group": "branch",
+    "sort_order": 11,
+    "is_active": true
+  },
+  {
+    "designation": "Dhari",
+    "name": "Dishant P. Rajyaguru",
+    "phone": null,
+    "color_class": "c2",
+    "group": "branch",
+    "sort_order": 12,
+    "is_active": true
+  },
+  {
+    "designation": "Ahmedabad",
+    "name": "Hardik N. Kapadiya",
+    "phone": null,
+    "color_class": "c1",
+    "group": "branch",
+    "sort_order": 13,
+    "is_active": true
+  },
+  {
+    "designation": "Junagadh",
+    "name": "Amar K. Vekariya",
+    "phone": null,
+    "color_class": "c4",
+    "group": "branch",
+    "sort_order": 14,
+    "is_active": true
+  },
+  {
+    "designation": "Mendarda",
+    "name": "Satish B. Kubavat",
+    "phone": null,
+    "color_class": "c5",
+    "group": "branch",
+    "sort_order": 15,
+    "is_active": true
+  }
+]

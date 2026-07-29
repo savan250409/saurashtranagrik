@@ -1,0 +1,79 @@
+[
+  {
+    "photo": "images/bod/anilbhai vekaria.jpg",
+    "name": "Shri Anilbhai G.Vekariya",
+    "designation": "Chairman",
+    "sort_order": 1,
+    "is_active": true
+  },
+  {
+    "photo": "media/IMG-20260619-WA0046.jpg",
+    "name": "Shri Divyeshbhai M. Velaria",
+    "designation": "Vice Chairman",
+    "sort_order": 2,
+    "is_active": true
+  },
+  {
+    "photo": "images/bod/Rupalben.jpg",
+    "name": "Shri Rupalben D.Sarvaiya",
+    "designation": "Secretary",
+    "sort_order": 3,
+    "is_active": true
+  },
+  {
+    "photo": "images/bod/Jaysukhbhai.jpg",
+    "name": "Shri Jaysukhbhai S.Gondaliya",
+    "designation": "G.M.D",
+    "sort_order": 4,
+    "is_active": true
+  },
+  {
+    "photo": "images/bod/Arunaben.jpg",
+    "name": "Shri Arunaben P.Babariya",
+    "designation": "Director",
+    "sort_order": 5,
+    "is_active": true
+  },
+  {
+    "photo": "images/bod/Dipakbhai.jpg",
+    "name": "Shri Dipakbhai V.Ambaliya",
+    "designation": "Director",
+    "sort_order": 6,
+    "is_active": true
+  },
+  {
+    "photo": "images/bod/Hiteshbhai.jpg",
+    "name": "Hiteshbhai R.Teraiya",
+    "designation": "Director",
+    "sort_order": 7,
+    "is_active": true
+  },
+  {
+    "photo": "images/bod/Amitbhai khimsuriya.jpg",
+    "name": "Shri Amitbhai M. Khimsuriya",
+    "designation": "Director",
+    "sort_order": 8,
+    "is_active": true
+  },
+  {
+    "photo": "images/bod/Pravinbhai.jpg",
+    "name": "Shri Pravinbhai J.Kasvala",
+    "designation": "Director",
+    "sort_order": 9,
+    "is_active": true
+  },
+  {
+    "photo": "images/bod/Bhavnaben.jpg",
+    "name": "Shri Bhavnaben V.Satasiya",
+    "designation": "Director",
+    "sort_order": 10,
+    "is_active": true
+  },
+  {
+    "photo": "media/IMG-20260619-WA0045.jpg",
+    "name": "Shri Bhaveshbhai L. Trapasiya",
+    "designation": "Director",
+    "sort_order": 11,
+    "is_active": true
+  }
+]
