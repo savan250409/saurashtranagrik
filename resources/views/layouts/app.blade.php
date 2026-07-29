@@ -92,6 +92,7 @@
     </main>
 
     @include('partials.footer')
+    @include('partials.pdf-modal')
 
     <script src="{{ asset('js/site.js') }}" defer></script>
     @stack('scripts')

@@ -55,12 +55,12 @@
             <div class="hero-mesh" aria-hidden="true"></div>
 
             <div class="hero-content">
-                <div class="wrap">
-                    <div class="hero-panel reveal">
-                        <span class="eyebrow">Bagasara &middot; Gujarat</span>
-                        <h1>Banking built on trust, sixteen years strong</h1>
-                        <p>A member-first co-operative society serving deposits, loans and savings across eleven branches in Gujarat.</p>
-                        <div class="btn-row">
+                <div class="wrap" style="display:flex;justify-content:center;text-align:center;">
+                    <div class="hero-panel hero-panel--center reveal" style="margin-left:auto;margin-right:auto;text-align:center;display:flex;flex-direction:column;align-items:center;">
+                        <span class="eyebrow" style="margin-left:auto;margin-right:auto;">Bagasara &middot; Gujarat</span>
+                        <h1 style="text-align:center;">Banking built on trust, sixteen years strong</h1>
+                        <p style="text-align:center;margin-left:auto;margin-right:auto;">A member-first co-operative society serving deposits, loans and savings across eleven branches in Gujarat.</p>
+                        <div class="btn-row btn-row--center" style="justify-content:center;margin-left:auto;margin-right:auto;">
                             <a class="btn btn-primary btn-magnetic" href="{{ route('deposit') }}">
                                 Explore deposits @include('partials.icon', ['name' => 'arrow-right'])
                             </a>
@@ -118,54 +118,68 @@
         </div>
     </section>
 
-    {{-- ---------------------------------------------------- district ticker --}}
-    <div class="section--tight">
-        <div class="marquee reveal">
-            <div class="marquee__track" aria-hidden="true">
-                @foreach ([1, 2] as $pass)
-                    @foreach ($districts as $district)
-                        <span>@include('partials.icon', ['name' => 'pin']) {{ $district }}</span>
-                    @endforeach
-                @endforeach
-            </div>
-        </div>
-    </div>
-
     {{-- --------------------------------------- sections + branch roster --}}
     <section class="section section--subtle">
         <div class="wrap">
             <div class="section-head reveal">
-                <span class="eyebrow">Explore</span>
-                <h2>Sections and information</h2>
-                <p>Everything you need to know about our schemes, accounts and activities.</p>
+                <span class="eyebrow" style="white-space: nowrap !important; max-width: max-content !important; display: inline-flex !important; flex-direction: row !important; align-items: center !important;">
+                    @include('partials.icon', ['name' => 'sparkles'])&nbsp;Financial&nbsp;Services
+                </span>
+                <h2 style="white-space: nowrap; font-size: clamp(1.6rem, 3.2vw, 2.4rem);">Sections and Information</h2>
+                <p>Explore our key financial services, audited accounts, reports and community activities.</p>
             </div>
 
-            <div class="home-split">
-                <div class="grid grid--bento reveal-group">
-                    @foreach ($sections as [$route, $label, $icon, $blurb])
-                        <a class="card card--hover tile" href="{{ route($route) }}">
-                            <span class="tile-icon">@include('partials.icon', ['name' => $icon])</span>
+            <div class="hub-split">
+                <div class="hub-grid reveal-group">
+                    @php
+                        $tags = [
+                            'SAVINGS & RATES',
+                            'FINANCIALS',
+                            'ACTIVITIES',
+                            'REPORTS',
+                            'STATEMENTS',
+                            'EVENTS'
+                        ];
+                    @endphp
+                    @foreach ($sections as $index => [$route, $label, $icon, $blurb])
+                        <a class="hub-card" href="{{ route($route) }}">
+                            <div class="hub-card-top">
+                                <div class="hub-icon">
+                                    @include('partials.icon', ['name' => $icon])
+                                </div>
+                                <span class="hub-tag">{{ $tags[$index] ?? 'EXPLORE' }}</span>
+                            </div>
                             <h3>{{ $label }}</h3>
                             <p>{{ $blurb }}</p>
+                            <span class="hub-link">
+                                Read More @include('partials.icon', ['name' => 'arrow-right'])
+                            </span>
                         </a>
                     @endforeach
                 </div>
 
-                <div class="reveal">
-                    <h3 style="font-size:1.05rem;margin-bottom:14px">Branch Associate</h3>
-                    <div class="accordion">
+                <div class="exec-assoc-card reveal">
+                    <div class="exec-header">
+                        <div class="exec-header-info">
+                            <h3>Branch Associate</h3>
+                            <p>Key Officers & Representatives</p>
+                        </div>
+                        <span class="exec-badge">4 BRANCHES</span>
+                    </div>
+                    <div class="accordion exec-accordion">
                         @foreach ($associates as $branch => $members)
                             <div class="accordion-item">
                                 <button type="button" class="accordion-trigger"
-                                        aria-expanded="false" aria-controls="assoc-{{ $loop->index }}">
-                                    {{ $branch }}
+                                        aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                        aria-controls="assoc-{{ $loop->index }}">
+                                    <span>{{ $branch }}</span>
                                     @include('partials.icon', ['name' => 'chevron-down'])
                                 </button>
-                                <div class="accordion-panel" id="assoc-{{ $loop->index }}">
+                                <div class="accordion-panel @if($loop->first) is-open @endif" id="assoc-{{ $loop->index }}">
                                     <div>
                                         <ul>
                                             @foreach ($members as $member)
-                                                <li>@include('partials.icon', ['name' => 'user-tie']) {{ $member }}</li>
+                                                <li>@include('partials.icon', ['name' => 'user']) {{ $member }}</li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -173,7 +187,7 @@
                             </div>
                         @endforeach
                     </div>
-                    <a class="btn btn-ghost" style="margin-top:16px" href="{{ route('branches') }}">
+                    <a class="btn-exec-details" href="{{ route('branches') }}">
                         Branch Details @include('partials.icon', ['name' => 'arrow-right'])
                     </a>
                 </div>
@@ -186,16 +200,25 @@
         <section class="section">
             <div class="wrap">
                 <div class="section-head reveal">
-                    <span class="eyebrow">Media</span>
-                    <h2>Video Gallery</h2>
+                    <span class="eyebrow" style="white-space: nowrap !important; max-width: max-content !important; display: inline-flex !important; flex-direction: row !important; align-items: center !important;">
+                        @include('partials.icon', ['name' => 'sparkles'])&nbsp;Media&nbsp;Gallery
+                    </span>
+                    <h2 style="white-space: nowrap; font-size: clamp(1.6rem, 3.2vw, 2.4rem);">Video Highlights</h2>
+                    <p>Watch milestone events, annual gatherings, and member community highlights.</p>
                 </div>
-                <div class="grid grid--3 reveal-group">
+                <div class="video-showcase-grid reveal-group">
                     @foreach ($homeVideos as $video)
-                        <div class="card video-card">
-                            <video controls preload="metadata" playsinline>
-                                <source src="{{ asset($video->video) }}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
+                        <div class="cinema-card">
+                            <div class="cinema-top-bar">
+                                <span><span class="live-dot"></span> Official Highlight #{{ $loop->iteration }}</span>
+                                <span>@include('partials.icon', ['name' => 'star']) Mandali Media</span>
+                            </div>
+                            <div class="cinema-video-wrapper">
+                                <video controls preload="metadata" playsinline>
+                                    <source src="{{ asset($video->video) }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -206,9 +229,345 @@
 
 @push('styles')
 <style>
-    .home-split { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr); gap: 26px; align-items: start; }
-    @media (max-width: 900px) {
-        .home-split { grid-template-columns: 1fr; }
+    /* Hub Split Layout */
+    .hub-split {
+        display: grid;
+        grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+    }
+
+    .hub-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .hub-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 26px 24px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        text-decoration: none;
+        color: var(--text);
+        overflow: hidden;
+        transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
+    }
+
+    .hub-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--brand), var(--gold));
+        opacity: 0;
+        transition: opacity .35s var(--ease);
+    }
+
+    .hub-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--border-strong);
+        color: var(--text);
+    }
+
+    .hub-card:hover::before {
+        opacity: 1;
+    }
+
+    .hub-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+    }
+
+    .hub-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 92%, transparent), color-mix(in srgb, var(--gold) 75%, var(--brand)));
+        color: #fff;
+        box-shadow: 0 6px 16px -3px color-mix(in srgb, var(--brand) 30%, transparent);
+        flex-shrink: 0;
+        transition: transform .3s var(--ease);
+    }
+
+    .hub-card:hover .hub-icon {
+        transform: scale(1.08) rotate(-3deg);
+    }
+
+    .hub-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .hub-tag {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--brand);
+        background: var(--brand-soft);
+        padding: 4px 10px;
+        border-radius: var(--radius-full);
+    }
+
+    .hub-card h3 {
+        margin: 0 0 8px;
+        font-size: 1.12rem;
+        font-weight: 700;
+        font-family: var(--font-display);
+        color: var(--text);
+        line-height: 1.3;
+    }
+
+    .hub-card p {
+        margin: 0 0 18px;
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+        flex: 1;
+    }
+
+    .hub-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--brand);
+        transition: gap .25s var(--ease);
+    }
+
+    .hub-link svg {
+        width: 15px;
+        height: 15px;
+        transition: transform .25s var(--ease);
+    }
+
+    .hub-card:hover .hub-link svg {
+        transform: translateX(4px);
+    }
+
+    /* Executive Directory Panel */
+    .exec-assoc-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .exec-header {
+        background: linear-gradient(135deg, var(--cta-1), var(--cta-2));
+        padding: 20px 22px;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .exec-header-info h3 {
+        margin: 0 0 3px;
+        color: #ffffff;
+        font-size: 1.18rem;
+        font-weight: 700;
+        font-family: var(--font-display);
+    }
+
+    .exec-header-info p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .exec-badge {
+        padding: 5px 12px;
+        background: rgba(255, 255, 255, 0.18);
+        backdrop-filter: blur(8px);
+        border-radius: var(--radius-full);
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: 0.05em;
+        flex-shrink: 0;
+    }
+
+    .exec-accordion {
+        border: none;
+        border-radius: 0;
+        background: transparent;
+    }
+
+    .exec-accordion .accordion-item + .accordion-item {
+        border-top: 1px solid var(--border);
+    }
+
+    .exec-accordion .accordion-trigger {
+        background: var(--surface);
+        color: var(--text);
+        padding: 15px 20px;
+        font-weight: 700;
+        font-size: 0.96rem;
+        transition: background-color .2s var(--ease);
+    }
+
+    .exec-accordion .accordion-trigger:hover {
+        background: var(--surface-2);
+    }
+
+    .exec-accordion .accordion-trigger[aria-expanded="true"] {
+        background: var(--surface-2);
+        color: var(--brand);
+    }
+
+    .exec-accordion .accordion-panel {
+        background: var(--bg-subtle);
+    }
+
+    .exec-accordion .accordion-panel ul {
+        padding: 10px 20px 18px 20px;
+    }
+
+    .exec-accordion .accordion-panel li {
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        padding: 7px 0;
+        border-bottom: 1px dashed var(--border);
+    }
+
+    .exec-accordion .accordion-panel li:last-child {
+        border-bottom: none;
+    }
+
+    .exec-accordion .accordion-panel li svg {
+        color: var(--brand);
+        width: 15px;
+        height: 15px;
+    }
+
+    .btn-exec-details, .btn-branch-details {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 12px 18px !important;
+        height: 44px !important;
+        max-height: 44px !important;
+        background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+        color: var(--brand-ink) !important;
+        font-weight: 700;
+        font-size: 0.85rem !important;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        border-radius: 0;
+        border: none;
+        transition: all .25s var(--ease);
+        text-decoration: none;
+        margin-top: auto;
+        flex-shrink: 0 !important;
+    }
+
+    .btn-exec-details svg, .btn-branch-details svg {
+        width: 16px !important;
+        height: 16px !important;
+    }
+
+    .btn-exec-details:hover, .btn-branch-details:hover {
+        box-shadow: var(--shadow-glow);
+        color: var(--brand-ink) !important;
+    }
+
+    /* Video Showcase Cinema */
+    .video-showcase-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px;
+    }
+
+    .cinema-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
+    }
+
+    .cinema-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--border-strong);
+    }
+
+    .cinema-top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 18px;
+        background: var(--bg-subtle);
+        border-bottom: 1px solid var(--border);
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-muted);
+    }
+
+    .cinema-top-bar .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #e53935;
+        box-shadow: 0 0 8px rgba(229, 57, 53, 0.6);
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    .cinema-top-bar svg {
+        width: 15px;
+        height: 15px;
+        color: var(--gold);
+    }
+
+    .cinema-video-wrapper {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #0d0f14;
+        overflow: hidden;
+    }
+
+    .cinema-video-wrapper video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    @media (max-width: 960px) {
+        .hub-split {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+    }
+
+    @media (max-width: 580px) {
+        .hub-grid {
+            grid-template-columns: 1fr;
+        }
+        .video-showcase-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 @endpush

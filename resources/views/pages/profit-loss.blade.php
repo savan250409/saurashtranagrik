@@ -14,6 +14,12 @@
 
     <section class="section">
         <div class="wrap">
+            <div class="btn-row btn-row--center reveal" style="margin-bottom:32px">
+                <a class="btn btn-primary" href="{{ asset('media/Nafa Nukshan 2026.pdf') }}" download>@include('partials.icon', ['name' => 'download']) Profit and Loss (Year-2026)</a>
+                <a class="btn btn-primary" href="{{ asset('media/Nafa Nukshan - 31-03-24 - Final - Copy.pdf') }}" download>@include('partials.icon', ['name' => 'download']) Profit and Loss (Year-2025)</a>
+                <a class="btn btn-primary" href="{{ asset('media/Profit & Loss.pdf') }}" download>@include('partials.icon', ['name' => 'download']) Profit and Loss (Year-2024)</a>
+            </div>
+
             <p class="reveal" style="text-align:center;color:var(--text-muted);margin-bottom:22px">Profit and loss account up to 31/03/2023</p>
 
             <div class="table-scroll reveal">

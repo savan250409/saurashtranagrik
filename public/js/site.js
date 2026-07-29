@@ -299,4 +299,79 @@
             });
         }, true);
     })();
+
+    /* ----------------------------------------------------- PDF preview modal -- */
+    (function pdfModal() {
+        var modal = document.getElementById('pdf-modal');
+        if (!modal) return;
+
+        var iframe = modal.querySelector('.pdf-modal-iframe');
+        var titleEl = modal.querySelector('.pdf-modal-title');
+        var downloadBtn = modal.querySelector('.pdf-modal-download');
+        var closeBtns = modal.querySelectorAll('.pdf-modal-close, .pdf-modal-backdrop');
+
+        function openModal(url, title) {
+            if (titleEl) titleEl.textContent = title || 'PDF Document';
+            if (downloadBtn) {
+                downloadBtn.href = url;
+                var filename = url.split('/').pop().split('?')[0] || 'document.pdf';
+                downloadBtn.setAttribute('download', decodeURIComponent(filename));
+            }
+            if (iframe) {
+                iframe.src = url;
+            }
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            if (iframe) {
+                iframe.src = 'about:blank';
+            }
+        }
+
+        document.addEventListener('click', function (e) {
+            var link = e.target.closest('a[href]');
+            if (!link) return;
+
+            // If click is inside the modal itself (e.g. download button), let default link click happen
+            if (link.closest('#pdf-modal')) {
+                return;
+            }
+
+            var href = link.getAttribute('href');
+            if (!href) return;
+
+            var isPdf = /\.pdf($|\?)/i.test(href) || link.hasAttribute('download');
+
+            if (isPdf) {
+                e.preventDefault();
+                
+                var title = link.getAttribute('data-title') || link.innerText.trim() || link.getAttribute('title');
+                if (title) {
+                    title = title.replace(/\s+/g, ' ').trim();
+                }
+                if (!title || title.length > 80) {
+                    var fileName = href.split('/').pop().split('?')[0];
+                    title = decodeURIComponent(fileName).replace(/\.pdf$/i, '');
+                }
+
+                openModal(href, title);
+            }
+        });
+
+        closeBtns.forEach(function (btn) {
+            btn.addEventListener('click', closeModal);
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+                closeModal();
+            }
+        });
+    })();
 })();
