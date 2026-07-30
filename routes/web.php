@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,6 +60,9 @@ Route::view('/', 'pages.index')->name('home');
 foreach ($pages as $page) {
     Route::view("/{$page}", "pages.{$page}")->name($page);
 }
+
+Route::get('/contact-us', [ContactController::class, 'show'])->name('contact-us');
+Route::post('/contact-us', [ContactController::class, 'send'])->name('contact-us.send');
 
 // Backwards compatibility: permanently redirect the old .html URLs.
 Route::redirect('/index.html', '/', 301);

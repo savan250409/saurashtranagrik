@@ -15,25 +15,17 @@
     @if ($headOfficeManagers->isNotEmpty())
         <section class="section">
             <div class="wrap">
-                <div class="grid grid--2 reveal-group">
+                <div class="lead-grid reveal-group">
                     @foreach ($headOfficeManagers as $manager)
-                        <article class="card card--hover accent-card" style="--accent: var(--{{ $manager->color_class }})">
-                            <div class="accent-head">
-                                <span class="dot">@include('partials.icon', ['name' => 'user-tie'])</span>
-                                <h3>{{ $manager->designation }}</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="info-line">
-                                    @include('partials.icon', ['name' => 'user'])
-                                    <span>{{ $manager->name }}</span>
-                                </p>
-                                @if ($manager->phone)
-                                    <p class="info-line">
-                                        @include('partials.icon', ['name' => 'phone'])
-                                        <a href="tel:{{ preg_replace('/\D+/', '', $manager->phone) }}">{{ $manager->phone }}</a>
-                                    </p>
-                                @endif
-                            </div>
+                        <article class="lead-card" style="--accent: var(--{{ $manager->color_class }})">
+                            <span class="lead-card__role">{{ $manager->designation }}</span>
+                            <h2 class="lead-card__name">{{ $manager->name }}</h2>
+                            @if ($manager->phone)
+                                <a class="lead-card__call" href="tel:{{ preg_replace('/\D+/', '', $manager->phone) }}">
+                                    @include('partials.icon', ['name' => 'phone'])
+                                    {{ $manager->phone }}
+                                </a>
+                            @endif
                         </article>
                     @endforeach
                 </div>
@@ -48,26 +40,19 @@
                     <span class="eyebrow">Branches</span>
                     <h2>Branch Managers</h2>
                 </div>
-                <div class="grid grid--3 reveal-group">
+                <div class="ledger reveal">
                     @foreach ($branchManagers as $manager)
-                        <article class="card card--hover accent-card" style="--accent: var(--{{ $manager->color_class }})">
-                            <div class="accent-head">
-                                <span class="dot">@include('partials.icon', ['name' => 'pin'])</span>
-                                <h3>{{ $manager->designation }}</h3>
-                            </div>
-                            <div class="card-body">
-                                <p class="info-line">
-                                    @include('partials.icon', ['name' => 'user'])
-                                    <span>{{ $manager->name }}</span>
-                                </p>
+                        <div class="ledger__row" style="--accent: var(--{{ $manager->color_class }})">
+                            <span class="ledger__mark" aria-hidden="true"></span>
+                            <span class="ledger__branch">{{ $manager->designation }}</span>
+                            <span class="ledger__dots" aria-hidden="true"></span>
+                            <span class="ledger__person">
+                                {{ $manager->name }}
                                 @if ($manager->phone)
-                                    <p class="info-line">
-                                        @include('partials.icon', ['name' => 'phone'])
-                                        <a href="tel:{{ preg_replace('/\D+/', '', $manager->phone) }}">{{ $manager->phone }}</a>
-                                    </p>
+                                    &middot; <a href="tel:{{ preg_replace('/\D+/', '', $manager->phone) }}">{{ $manager->phone }}</a>
                                 @endif
-                            </div>
-                        </article>
+                            </span>
+                        </div>
                     @endforeach
                 </div>
             </div>

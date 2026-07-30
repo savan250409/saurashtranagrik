@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
                 'stats' => [
                     ['target' => 16, 'suffix' => '+', 'label' => 'Years of trust'],
                     ['target' => Branch::published()->count(), 'suffix' => '', 'label' => 'Branches'],
-                    ['target' => Loan::published()->count(), 'suffix' => '', 'label' => 'Loan schemes'],
+                    ['target' => 15000, 'suffix' => '+', 'label' => 'Customers'],
                     ['target' => Manager::published()->count(), 'suffix' => '', 'label' => 'Managers'],
                 ],
             ]);
@@ -51,16 +51,11 @@ class AppServiceProvider extends ServiceProvider
         View::composer('pages.loan', fn ($view) => $view->with('loans', Loan::published()->get()));
 
         View::composer('pages.deposit', function ($view) {
-            $rates = DepositRate::published()->get();
-
-            // The rate grid is two columns wide. When the count is odd the last
-            // card would sit alone against the left edge, so the page has always
-            // rendered it centred on its own row - keep that behaviour.
-            $featured = $rates->count() % 2 === 1 ? $rates->last() : null;
-
+            // The old two-column grid left an odd last card dangling, so the page
+            // used to split one rate out and centre it. The rate grid is now
+            // auto-filling, which handles any count on its own - no split needed.
             $view->with([
-                'depositRates' => $featured ? $rates->slice(0, -1)->values() : $rates,
-                'depositRateFeatured' => $featured,
+                'depositRates' => DepositRate::published()->get(),
                 'recurringDeposits' => RecurringDeposit::published()->get(),
             ]);
         });

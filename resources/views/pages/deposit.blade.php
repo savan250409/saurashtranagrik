@@ -14,43 +14,54 @@
 
     <section class="section">
         <div class="wrap">
-            <div class="grid grid--2 reveal-group">
+            @php
+                // Highest numeric rate: for a depositor the best return, the
+                // mirror of the loan page marking the lowest. "Double" and any
+                // other non-numeric value is skipped rather than guessed at.
+                $numericRates = $depositRates->pluck('rate')
+                    ->filter(fn ($r) => is_numeric(str_replace('%', '', (string) $r)))
+                    ->map(fn ($r) => (float) str_replace('%', '', (string) $r));
+                $bestRate = $numericRates->isNotEmpty() ? $numericRates->max() : null;
+            @endphp
+
+            <div class="rate-grid reveal-group">
                 @foreach ($depositRates as $rate)
-                    <div class="rate-row">
-                        <span class="rate-icon">
-                            @if ($rate->icon)
+                    @php
+                        $clean = str_replace('%', '', (string) $rate->rate);
+                        $isBest = $bestRate !== null && is_numeric($clean) && (float) $clean === $bestRate;
+                    @endphp
+
+                    <article @class(['rate-card', 'rate-card--badged' => $isBest])>
+                        @if ($rate->icon)
+                            <span class="rate-card__mark" aria-hidden="true">
                                 <img src="{{ asset($rate->icon) }}" alt="" loading="lazy" decoding="async">
-                            @else
-                                @include('partials.icon', ['name' => 'coins'])
-                            @endif
-                        </span>
-                        <span class="rate-name">{{ $rate->title }}</span>
-                        @if ($rate->rate)
-                            <span class="rate-value">{{ $rate->rate }}</span>
+                            </span>
                         @endif
-                    </div>
+
+                        @if ($isBest)
+                            <span class="rate-card__badge">Highest rate</span>
+                        @endif
+
+                        <div class="rate-card__head">
+                            <span class="rate-card__icon">
+                                @if ($rate->icon)
+                                    <img src="{{ asset($rate->icon) }}" alt="" loading="lazy" decoding="async">
+                                @else
+                                    @include('partials.icon', ['name' => 'coins'])
+                                @endif
+                            </span>
+                            <span class="rate-card__name">{{ $rate->title }}</span>
+                        </div>
+
+                        @if ($rate->rate)
+                            <div class="rate-card__foot">
+                                <span @class(['rate-card__value', 'rate-card__value--long' => mb_strlen((string) $rate->rate) > 5])>{{ $rate->rate }}</span>
+                                <span class="rate-card__label">Interest rate</span>
+                            </div>
+                        @endif
+                    </article>
                 @endforeach
             </div>
-
-            @if ($depositRateFeatured)
-                {{-- The grid is two columns wide; an odd last card is centred
-                     on its own row rather than left dangling. --}}
-                <div class="grid grid--2 reveal" style="max-width:calc(50% - 11px);margin-inline:auto;margin-top:22px">
-                    <div class="rate-row">
-                        <span class="rate-icon">
-                            @if ($depositRateFeatured->icon)
-                                <img src="{{ asset($depositRateFeatured->icon) }}" alt="" loading="lazy" decoding="async">
-                            @else
-                                @include('partials.icon', ['name' => 'coins'])
-                            @endif
-                        </span>
-                        <span class="rate-name">{{ $depositRateFeatured->title }}</span>
-                        @if ($depositRateFeatured->rate)
-                            <span class="rate-value">{{ $depositRateFeatured->rate }}</span>
-                        @endif
-                    </div>
-                </div>
-            @endif
         </div>
     </section>
 
@@ -62,21 +73,47 @@
                     <h2>Recurring Deposit</h2>
                     <p>Monthly deposit amounts and what they mature to.</p>
                 </div>
-                <div class="grid grid--3 reveal-group">
+                @php
+                    // Every term uses the same ladder of monthly amounts, so the
+                    // picker is the union of whatever amounts exist, in the order
+                    // they first appear - derived, not hard-coded.
+                    $amounts = collect($recurringDeposits)
+                        ->flatMap(fn ($rd) => collect($rd->lines())->pluck('amount'))
+                        ->filter(fn ($a) => filled($a))
+                        ->unique()
+                        ->values();
+                @endphp
+
+                @if ($amounts->isNotEmpty())
+                    <div class="maturity-picker reveal">
+                        <span class="maturity-picker__label" id="maturity-picker-label">Monthly deposit</span>
+                        <div class="maturity-chips" role="radiogroup" aria-labelledby="maturity-picker-label">
+                            @foreach ($amounts as $amount)
+                                <button type="button" class="maturity-chip" role="radio"
+                                        data-amount="{{ $amount }}"
+                                        aria-checked="{{ $loop->first ? 'true' : 'false' }}"
+                                        tabindex="{{ $loop->first ? '0' : '-1' }}">{{ $amount }}</button>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                <div class="maturity-grid reveal-group">
                     @foreach ($recurringDeposits as $rd)
-                        <article class="card card--hover rd-card">
-                            <div class="rd-head">
-                                <h3>{{ $rd->term }}</h3>
+                        <article class="maturity-card">
+                            <div class="maturity-card__head">
+                                <h3 class="maturity-card__term">{{ $rd->term }}</h3>
                                 @if ($rd->rate)
-                                    <span class="rate-value">{{ $rd->rate }}</span>
+                                    <span class="maturity-card__rate">{{ $rd->rate }}</span>
                                 @endif
                             </div>
-                            <div class="rd-list">
+
+                            <div class="maturity-values">
                                 @foreach ($rd->lines() as $line)
-                                    <div class="rd-line">
-                                        <span>{{ $line['amount'] }}</span>
-                                        @include('partials.icon', ['name' => 'arrow-right'])
-                                        <b>{{ $line['maturity'] }}</b>
+                                    <div @class(['maturity-value', 'is-active' => $loop->first])
+                                         data-amount="{{ $line['amount'] }}">
+                                        <span class="maturity-value__num">{{ $line['maturity'] }}</span>
+                                        <span class="maturity-value__label">on {{ $line['amount'] }} / month</span>
                                     </div>
                                 @endforeach
                             </div>
@@ -88,10 +125,3 @@
     @endif
 @endsection
 
-@push('styles')
-<style>
-    @media (max-width: 700px) {
-        .grid--2.reveal[style] { max-width: 100% !important; }
-    }
-</style>
-@endpush

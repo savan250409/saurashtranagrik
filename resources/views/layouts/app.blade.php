@@ -1,29 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Shree Saurashtra Nagrik Sharafi Mandali Ltd.')</title>
     <meta name="description" content="@yield('meta', 'Shree Saurashtra Nagrik Sharafi Sahakari Mandali Ltd., Bagasara - a co-operative credit society serving members across Gujarat with deposits, loans and savings schemes.')">
-    <meta name="theme-color" content="#b3202c" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#0e141c" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#b3202c">
     <link rel="icon" href="{{ asset('images/fav.png') }}" type="image/png">
 
-    {{-- Resolve the theme before first paint. Anything later would flash the
-         wrong colours on a dark-mode visitor's screen. --}}
     <script>
         (function () {
             var root = document.documentElement;
-            try {
-                var stored = localStorage.getItem('theme');
-                var dark = stored ? stored === 'dark'
-                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
-                root.setAttribute('data-theme', dark ? 'dark' : 'light');
-            } catch (e) { /* storage blocked - keep the light default */ }
             // Enables the reveal-on-scroll start state. Set here rather than in
             // CSS so that with JS off the content is never hidden.
             root.classList.add('js-anim');
+            // Marks that JS is available, so progressive-enhancement components
+            // (e.g. the tabbed branch roster) can collapse. Without it every
+            // panel stays open and nothing is unreachable.
+            root.classList.add('js-on');
         })();
     </script>
 
@@ -56,10 +51,6 @@
             </nav>
 
             <div class="header-actions">
-                <button type="button" class="icon-btn theme-toggle" aria-label="Switch theme">
-                    @include('partials.icon', ['name' => 'sun', 'class' => 'i-sun'])
-                    @include('partials.icon', ['name' => 'moon', 'class' => 'i-moon'])
-                </button>
                 <button type="button" class="icon-btn nav-toggle" aria-expanded="false"
                         aria-controls="mobile-nav" aria-label="Open menu">
                     @include('partials.icon', ['name' => 'menu'])

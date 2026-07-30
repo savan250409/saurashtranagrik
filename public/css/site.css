@@ -9,9 +9,7 @@
    instead of a full-width bar, and a hero built from a real photo + scrim
    + glass panel rather than a plain carousel strip.
 
-   Theming: every colour is a custom property defined twice - once for light,
-   once for dark. <html> carries data-theme="light|dark"; switching is a
-   single attribute change with no reflow.
+   Theming: every colour is a custom property, defined once. Light only.
    ========================================================================= */
 
 /* ---------------------------------------------------------------- tokens */
@@ -59,8 +57,11 @@
     --font-display: 'Fraunces', 'Georgia', serif;
     --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-    /* branch / manager card accents */
-    --c1: #0f766e; --c2: #1d63c4; --c3: #2f8a3f;
+    /* Branch / manager card accents. These are used as small text (role
+       overlines, badges) as well as fills, so every one must clear 4.5:1 on
+       --surface. c3 was #2f8a3f, which only reached 4.28 - darkened to 4.94.
+       Verified for all six in both themes. */
+    --c1: #0f766e; --c2: #1d63c4; --c3: #2a7f37;
     --c4: #b3202c; --c5: #7a5136; --c6: #445468;
 
     /* Fixed (non-themed) dark red/gold trio for the footer CTA banner. In dark
@@ -73,38 +74,6 @@
     --cta-3: #9c6a1f;
 
     color-scheme: light;
-}
-
-[data-theme="dark"] {
-    --brand: #ff6b52;
-    --brand-strong: #ff8a6e;
-    --brand-soft: #341911;
-    --brand-ink: #180f0a;
-
-    --gold: #f0b756;
-    --gold-strong: #d99a3f;
-    --gold-soft: #362a13;
-
-    --bg: #14100c;
-    --bg-subtle: #1b1510;
-    --surface: #1d1712;
-    --surface-2: #251d15;
-    --border: #362b1e;
-    --border-strong: #4a3b29;
-
-    --text: #f5eee3;
-    --text-muted: #cabda9;
-    --text-faint: #a3937d;
-
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
-    --shadow-md: 0 8px 22px rgba(0, 0, 0, .42);
-    --shadow-lg: 0 24px 56px rgba(0, 0, 0, .55);
-    --shadow-glow: 0 18px 40px -6px color-mix(in srgb, var(--brand) 45%, transparent);
-
-    --c1: #2ba396; --c2: #4b8ee8; --c3: #46ad58;
-    --c4: #ff6b52; --c5: #c99666; --c6: #7d90a6;
-
-    color-scheme: dark;
 }
 
 /* ------------------------------------------------------------- base ---- */
@@ -123,7 +92,6 @@ body {
     font-size: 16px;
     line-height: 1.7;
     overflow-x: hidden;
-    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
 :lang(gu), .gu { font-family: 'Anek Gujarati', var(--font-body); }
@@ -295,10 +263,6 @@ main.no-hero-pad { padding-top: 0; }
 .icon-btn:hover { background: var(--surface-2); border-color: var(--border-strong); }
 .icon-btn:active { transform: scale(.92); }
 .icon-btn svg { width: 19px; height: 19px; }
-
-.theme-toggle .i-sun, .theme-toggle .i-moon { transition: opacity .25s var(--ease), transform .35s var(--ease); }
-[data-theme="light"] .theme-toggle .i-moon { display: none; }
-[data-theme="dark"] .theme-toggle .i-sun { display: none; }
 
 .nav-toggle { display: none; }
 
@@ -500,14 +464,14 @@ main.no-hero-pad { padding-top: 0; }
 
 /* cursor-follow glow. Degrades gracefully: with no JS/pointer support the
    gradient just centres itself and still glows on :hover. */
-.card--hover::after, .rate-row::after, .download-row::after {
+.card--hover::after, .rate-card::after, .doc-card::after {
     content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; z-index: 0;
     background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%),
         color-mix(in srgb, var(--brand) 13%, transparent), transparent 72%);
     transition: opacity .4s var(--ease);
 }
-.card--hover:hover::after, .rate-row:hover::after, .download-row:hover::after { opacity: 1; }
-.card--hover > *, .rate-row > *, .download-row > * { position: relative; z-index: 1; }
+.card--hover:hover::after, .rate-card:hover::after, .doc-card:hover::after { opacity: 1; }
+.card--hover > *, .rate-card > *, .doc-card > * { position: relative; z-index: 1; }
 
 /* icon/feature tile */
 .tile { display: block; text-align: center; padding: 32px 22px; color: inherit; }
@@ -520,7 +484,11 @@ main.no-hero-pad { padding-top: 0; }
     box-shadow: var(--shadow-sm);
 }
 .tile .tile-icon svg { width: 25px; height: 25px; }
-.tile .tile-icon img { width: 30px; height: 30px; object-fit: contain; filter: brightness(0) invert(1); }
+/* Icons here are full-colour illustrations with their own circular background
+   baked in (not plain silhouettes), so - unlike .rate-card__icon - they are
+   shown as-is: no recolour filter, and no badge background behind them. */
+.tile .tile-icon:has(img) { background: none; box-shadow: none; }
+.tile .tile-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
 .tile h3 { font-size: 1.04rem; margin-bottom: 6px; }
 .tile p { color: var(--text-muted); font-size: .89rem; margin: 0; }
 
@@ -558,73 +526,196 @@ main.no-hero-pad { padding-top: 0; }
 .info-line a:hover { color: var(--brand); }
 .info-divider { height: 1px; background: var(--border); margin: 16px 0; border: 0; }
 
-/* rate row (loans, deposits) */
-.rate-row {
-    display: flex; align-items: center; gap: 16px;
-    padding: 16px 20px;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); box-shadow: var(--shadow-sm);
-    overflow: hidden; position: relative;
-    transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
-}
-.rate-row:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--border-strong); }
-.rate-row .rate-icon {
-    width: 42px; height: 42px; flex: 0 0 auto;
-    border-radius: 46% 54% 54% 46% / 50% 46% 54% 50%;
-    display: grid; place-items: center;
-    background: linear-gradient(150deg, color-mix(in srgb, var(--brand) 88%, transparent), color-mix(in srgb, var(--gold) 65%, var(--brand)));
-    color: #fff;
-}
-.rate-row .rate-icon img { width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1); }
-.rate-row .rate-icon svg { width: 20px; height: 20px; }
-.rate-row .rate-name { flex: 1; font-weight: 600; font-size: .95rem; }
-.rate-row .rate-value {
-    flex: 0 0 auto; font-weight: 700; font-size: .92rem;
-    padding: 6px 14px; border-radius: var(--radius-full);
-    background: linear-gradient(135deg, var(--brand), var(--brand-strong)); color: var(--brand-ink);
+/* rate card (loans, deposits) - the rate is the hero, not a pill bolted to
+   the end of a row: the figure people actually compare gets display size. */
+.rate-grid {
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
 }
 
-/* recurring deposit card */
-.rd-card .rd-head {
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 18px 22px; border-bottom: 1px solid var(--border); background: var(--surface-2);
-}
-.rd-card .rd-head h3 { margin: 0; font-size: 1.05rem; }
-.rd-card .rd-head .rate-value {
-    font-weight: 700; font-size: .85rem; padding: 5px 13px; border-radius: var(--radius-full);
-    background: linear-gradient(135deg, var(--brand), var(--brand-strong)); color: var(--brand-ink);
-}
-.rd-list { padding: 8px 22px 18px; }
-.rd-list .rd-line {
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 10px 0; border-bottom: 1px dashed var(--border); font-size: .92rem;
-}
-.rd-list .rd-line:last-child { border-bottom: 0; }
-.rd-list .rd-line b { font-weight: 700; color: var(--text); }
-.rd-list .rd-line svg { width: 15px; height: 15px; color: var(--text-faint); }
-
-/* download row */
-.download-row {
-    display: flex; align-items: center; gap: 15px;
-    padding: 17px 20px;
+.rate-card {
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 16px;
+    padding: clamp(20px, 2.4vw, 26px);
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); box-shadow: var(--shadow-sm);
-    color: var(--text); font-weight: 600; font-size: .95rem;
-    overflow: hidden; position: relative;
     transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
 }
-.download-row:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--brand); color: var(--text); }
-.download-row .file-icon {
+.rate-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-glow); border-color: var(--border-strong); }
+
+/* oversized, very faint copy of the scheme icon in the corner */
+.rate-card__mark {
+    position: absolute; right: -18px; top: -18px;
+    width: 104px; height: 104px; opacity: .06; pointer-events: none; z-index: 0;
+}
+.rate-card__mark img { width: 100%; height: 100%; object-fit: contain; }
+
+.rate-card__head { display: flex; align-items: center; gap: 12px; }
+/* keep a long scheme name clear of the absolutely-positioned badge */
+.rate-card--badged .rate-card__head { padding-right: 94px; }
+.rate-card__icon {
     width: 40px; height: 40px; flex: 0 0 auto;
     border-radius: 46% 54% 54% 46% / 50% 46% 54% 50%;
     display: grid; place-items: center;
     background: linear-gradient(150deg, color-mix(in srgb, var(--brand) 88%, transparent), color-mix(in srgb, var(--gold) 65%, var(--brand)));
     color: #fff;
 }
-.download-row .file-icon svg { width: 19px; height: 19px; }
-.download-row .dl-arrow { margin-left: auto; color: var(--text-faint); }
-.download-row:hover .dl-arrow { color: var(--brand); }
-.download-row .dl-arrow svg { width: 18px; height: 18px; }
+.rate-card__icon svg { width: 19px; height: 19px; }
+/* These icons are full-colour illustrations, not plain silhouettes - and
+   several are not circular compositions (e.g. a full-width roofline), so
+   unlike .tile-icon they are not clipped to a circle. Shown as-is: no
+   recolour filter, no badge background behind them. */
+.rate-card__icon:has(img) { background: none; }
+.rate-card__icon img { width: 100%; height: 100%; object-fit: contain; border-radius: var(--radius-sm); }
+.rate-card__name { font-weight: 700; font-size: .96rem; line-height: 1.35; }
+
+.rate-card__foot {
+    margin-top: auto; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px;
+    padding-top: 15px; border-top: 1px solid var(--border);
+}
+.rate-card__value {
+    font-family: var(--font-display); font-weight: 600; line-height: 1;
+    font-size: clamp(2rem, 4.2vw, 2.8rem);
+    background: linear-gradient(135deg, var(--brand), var(--gold-strong));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+/* long values such as "Double" must not blow out the card */
+.rate-card__value--long { font-size: clamp(1.4rem, 2.6vw, 1.85rem); }
+.rate-card__label {
+    font-size: .7rem; letter-spacing: .11em; text-transform: uppercase;
+    color: var(--text-faint); font-weight: 700;
+}
+
+.rate-card__badge {
+    position: absolute; top: 14px; right: 14px; z-index: 1;
+    font-size: .63rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: var(--radius-full);
+    background: color-mix(in srgb, var(--brand) 12%, var(--surface));
+    color: var(--brand);
+}
+
+/* ------------------------------------------------- maturity explorer -- */
+/* The recurring-deposit data is really one matrix: the same ladder of monthly
+   amounts against every term. Rather than repeat that ladder inside five
+   separate cards, pick an amount once and compare all terms side by side.
+   Without JS the chips hide and every card lists all its amounts, so nothing
+   is unreachable. */
+.maturity-picker {
+    display: none;
+    align-items: center; flex-wrap: wrap; gap: 12px;
+    margin-bottom: 26px;
+}
+.js-on .maturity-picker { display: flex; }
+.maturity-picker__label {
+    font-size: .74rem; font-weight: 700; letter-spacing: .11em;
+    text-transform: uppercase; color: var(--text-faint);
+}
+.maturity-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.maturity-chip {
+    cursor: pointer; font-family: inherit;
+    padding: 8px 16px; border-radius: var(--radius-full);
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-muted); font-size: .86rem; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    transition: background-color .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+}
+.maturity-chip:hover { border-color: var(--border-strong); color: var(--text); }
+.maturity-chip[aria-checked="true"] {
+    background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+    border-color: transparent; color: var(--brand-ink);
+}
+
+.maturity-grid {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(186px, 1fr));
+}
+.maturity-card {
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 14px;
+    padding: clamp(18px, 2.2vw, 24px);
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
+}
+.maturity-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--border-strong); }
+
+.maturity-card__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.maturity-card__term { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 1.12rem; }
+.maturity-card__rate {
+    font-weight: 700; font-size: .78rem; padding: 4px 11px; border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--brand), var(--brand-strong)); color: var(--brand-ink);
+    white-space: nowrap;
+}
+
+.maturity-values { margin-top: auto; }
+.js-on .maturity-value:not(.is-active) { display: none; }
+/* without JS the values stack as a readable ladder */
+.maturity-value + .maturity-value { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
+.js-on .maturity-value + .maturity-value { margin-top: 0; padding-top: 0; border-top: 0; }
+
+.maturity-value__num {
+    display: block;
+    font-family: var(--font-display); font-weight: 600; line-height: 1;
+    font-size: clamp(1.65rem, 3.2vw, 2.15rem);
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(135deg, var(--brand), var(--gold-strong));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.maturity-value__label {
+    display: block; margin-top: 5px;
+    font-size: .76rem; color: var(--text-faint); font-weight: 600;
+}
+
+/* ------------------------------------------------------ document card -- */
+/* A compact icon-led row rather than a card with a blank preview area - there
+   is no real page thumbnail to show (no PDF-rendering tool on the server),
+   and an empty placeholder box reads worse than no box at all. The format
+   and file size are read off disk, so they are always accurate. */
+.doc-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+.doc-card {
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 18px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    color: var(--text);
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
+}
+.doc-card:hover {
+    transform: translateY(-3px); box-shadow: var(--shadow-glow);
+    border-color: var(--brand); color: var(--text);
+}
+
+.doc-card__icon {
+    position: relative; z-index: 1; flex: 0 0 auto;
+    width: 46px; height: 46px; display: grid; place-items: center;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+    color: var(--brand-ink);
+}
+.doc-card__icon svg { width: 21px; height: 21px; }
+
+.doc-card__body { position: relative; z-index: 1; flex: 1; min-width: 0; }
+.doc-card__title {
+    display: block; font-weight: 700; font-size: .96rem; line-height: 1.35;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.doc-card__meta { display: block; font-size: .78rem; color: var(--text-faint); font-weight: 600; margin-top: 3px; }
+
+.doc-card__go {
+    position: relative; z-index: 1; flex: 0 0 auto;
+    width: 34px; height: 34px;
+    display: grid; place-items: center; border-radius: var(--radius-full);
+    border: 1px solid var(--border); background: var(--surface-2);
+    color: var(--text-muted);
+    transition: background-color .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
+}
+.doc-card__go svg { width: 16px; height: 16px; }
+.doc-card:hover .doc-card__go {
+    background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+    border-color: transparent; color: var(--brand-ink);
+}
 
 /* ------------------------------------------------------------ buttons -- */
 .btn {
@@ -861,6 +952,250 @@ table.data td:first-child, table.data th:first-child { white-space: normal; min-
 
 .video-card video { width: 100%; aspect-ratio: 16 / 10; background: #000; object-fit: cover; }
 
+/* ------------------------------------------------ branch roster (tabs) -- */
+/* A directory, not a wall of boxes: pick a branch, read that roster.
+   Progressive enhancement - the tab bar only appears once JS is confirmed
+   (.js-on), and until then every panel is visible and nothing is unreachable. */
+.roster-tabs { display: none; }
+.js-on .roster-tabs {
+    /* wraps rather than scrolls: with nine branches a horizontal scroller
+       clipped the last pill at the container edge and hid it entirely */
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 22px;
+}
+.roster-tab {
+    flex: 0 0 auto; cursor: pointer; font-family: inherit;
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 9px 16px; border-radius: var(--radius-full);
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-muted); font-size: .86rem; font-weight: 600;
+    white-space: nowrap;
+    transition: background-color .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+}
+.roster-tab:hover { border-color: var(--border-strong); color: var(--text); }
+.roster-tab[aria-selected="true"] {
+    background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+    border-color: transparent; color: var(--brand-ink);
+}
+.roster-tab .count {
+    font-size: .73rem; font-weight: 700; padding: 1px 8px;
+    border-radius: var(--radius-full);
+    background: var(--surface-2); color: var(--text-faint);
+}
+.roster-tab[aria-selected="true"] .count {
+    background: color-mix(in srgb, var(--brand-ink) 22%, transparent);
+    color: var(--brand-ink);
+}
+
+.js-on .roster-panel:not(.is-active) { display: none; }
+.roster-panel + .roster-panel { margin-top: 22px; }
+
+.roster-head {
+    display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+    gap: 10px; margin-bottom: 6px; padding: 0 0 14px;
+    border-bottom: 1px solid var(--border);
+}
+.roster-head h3 { margin: 0; font-size: 1.02rem; }
+.roster-head .roster-count { color: var(--text-faint); font-size: .82rem; font-weight: 600; }
+
+.roster-list {
+    /* 300px min keeps most names on a single line, so avatars across a row
+       stay optically aligned instead of drifting with each wrapped name */
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2px 16px; padding-top: 8px;
+}
+.roster-person {
+    display: flex; align-items: center; gap: 13px;
+    padding: 11px 12px; border-radius: var(--radius-sm);
+    transition: background-color .2s var(--ease);
+}
+.roster-person:hover { background: var(--surface-2); }
+.roster-avatar {
+    width: 42px; height: 42px; flex: 0 0 auto;
+    border-radius: 46% 54% 54% 46% / 50% 46% 54% 50%;
+    display: grid; place-items: center;
+    font-size: .8rem; font-weight: 700; letter-spacing: .03em;
+    /* same pairing as .btn-primary, which is contrast-verified in both themes */
+    background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+    color: var(--brand-ink);
+}
+.roster-person__text { min-width: 0; }
+.roster-person__name { font-weight: 600; font-size: .92rem; line-height: 1.35; }
+.roster-person__role { color: var(--text-faint); font-size: .78rem; }
+
+/* the branch MD leads the roster - gold ring rather than a gold fill, so the
+   initials keep the contrast-safe brand background behind them */
+.roster-person--lead .roster-avatar {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 45%, transparent);
+}
+.roster-person--lead .roster-person__role { color: var(--gold-strong); font-weight: 700; }
+
+@media print {
+    .roster-tabs { display: none !important; }
+    .js-on .roster-panel:not(.is-active) { display: block !important; }
+}
+
+/* ------------------------------------------------------- branch index -- */
+/* A full-width numbered directory index rather than a grid of cards: the
+   branch name leads, the address reads as one line, and the phone numbers
+   become tappable chips on the right. */
+.branch-index { display: grid; gap: 14px; }
+
+.branch-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: clamp(14px, 2.6vw, 30px);
+    align-items: center;
+    padding: clamp(18px, 2.4vw, 26px) clamp(20px, 2.6vw, 30px);
+    padding-left: clamp(26px, 3vw, 38px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
+}
+/* accent spine, grows to full height on hover */
+.branch-row::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: var(--accent, var(--brand));
+    transform: scaleY(.34); transform-origin: center;
+    transition: transform .35s var(--ease);
+}
+.branch-row:hover::before { transform: scaleY(1); }
+.branch-row:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-strong);
+}
+
+.branch-row__num {
+    font-family: var(--font-display); font-weight: 600; line-height: 1;
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    color: var(--accent, var(--brand));
+    font-variant-numeric: tabular-nums;
+}
+
+.branch-row__body { min-width: 0; }
+.branch-row__name {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+    margin: 0 0 5px;
+    font-family: var(--font-body); font-weight: 700;
+    font-size: clamp(1.08rem, 1.8vw, 1.3rem);
+}
+.branch-row__addr { margin: 0; color: var(--text-muted); font-size: .9rem; }
+
+.branch-badge {
+    font-size: .66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: var(--radius-full);
+    background: color-mix(in srgb, var(--accent, var(--brand)) 15%, var(--surface));
+    color: var(--accent, var(--brand));
+}
+
+.branch-row__contacts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.branch-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 15px; border-radius: var(--radius-full);
+    border: 1px solid var(--border); background: var(--surface-2);
+    color: var(--text); font-size: .84rem; font-weight: 600; white-space: nowrap;
+    transition: border-color .2s var(--ease), background-color .2s var(--ease), color .2s var(--ease);
+}
+.branch-chip svg { width: 15px; height: 15px; color: var(--accent, var(--brand)); }
+.branch-chip:hover {
+    border-color: var(--accent, var(--brand));
+    background: color-mix(in srgb, var(--accent, var(--brand)) 9%, var(--surface));
+    color: var(--text);
+}
+
+@media (max-width: 860px) {
+    .branch-row { grid-template-columns: auto minmax(0, 1fr); }
+    .branch-row__contacts { grid-column: 2 / -1; justify-content: flex-start; margin-top: 13px; }
+}
+@media (max-width: 460px) {
+    .branch-row { padding-left: 22px; }
+    .branch-row__num { font-size: 1.25rem; }
+    .branch-chip { font-size: .8rem; padding: 8px 13px; }
+}
+
+/* ---------------------------------------------------- leadership card -- */
+/* Inverts the old box, which led with the job title in a coloured header:
+   here the role is a small overline and the person's NAME is the headline. */
+.lead-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(228px, 1fr)); }
+
+.lead-card {
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 12px;
+    padding: clamp(22px, 2.6vw, 30px);
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
+}
+.lead-card::before {
+    content: ''; position: absolute; right: -42px; top: -42px;
+    width: 132px; height: 132px; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent, var(--brand)) 22%, transparent), transparent 70%);
+}
+.lead-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--border-strong); }
+.lead-card > * { position: relative; z-index: 1; }
+
+.lead-card__role {
+    font-size: .69rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--accent, var(--brand));
+}
+.lead-card__name {
+    margin: 0; font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.28rem, 2.1vw, 1.58rem); line-height: 1.16;
+}
+.lead-card__call {
+    margin-top: auto; align-self: flex-start;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 15px; border-radius: var(--radius-full);
+    border: 1px solid var(--border); background: var(--surface-2);
+    color: var(--text); font-size: .84rem; font-weight: 600; white-space: nowrap;
+    transition: border-color .2s var(--ease), background-color .2s var(--ease);
+}
+.lead-card__call svg { width: 15px; height: 15px; color: var(--accent, var(--brand)); }
+.lead-card__call:hover {
+    border-color: var(--accent, var(--brand));
+    background: color-mix(in srgb, var(--accent, var(--brand)) 9%, var(--surface));
+    color: var(--text);
+}
+
+/* --------------------------------------------------- branch ledger ----- */
+/* Branch managers carry no phone number, so a card each would be eleven
+   near-empty boxes. An index reads faster: branch on the left, who to ask on
+   the right, joined by a dotted leader. */
+.ledger {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface); box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+}
+.ledger__row {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 15px 22px;
+    border-bottom: 1px solid var(--border);
+    transition: background-color .2s var(--ease);
+}
+.ledger__row:hover { background: var(--surface-2); }
+.ledger__mark {
+    width: 8px; height: 8px; flex: 0 0 auto; border-radius: 50%;
+    background: var(--accent, var(--brand)); transform: translateY(-1px);
+}
+.ledger__branch { font-weight: 700; font-size: .95rem; white-space: nowrap; }
+.ledger__dots {
+    flex: 1 1 auto; min-width: 18px;
+    border-bottom: 1px dotted var(--border-strong); transform: translateY(-5px);
+}
+.ledger__person { color: var(--text-muted); font-size: .9rem; text-align: right; }
+
+@media (max-width: 520px) {
+    .ledger__row { padding: 14px 16px; gap: 8px; }
+    .ledger__branch { font-size: .9rem; }
+    .ledger__person { font-size: .85rem; }
+}
+
 /* ------------------------------------------------------------- marquee -- */
 .marquee {
     overflow: hidden;
@@ -930,6 +1265,29 @@ table.data td:first-child, table.data th:first-child { white-space: normal; min-
     grid-template-columns: minmax(0, 1.35fr) repeat(auto-fit, minmax(160px, 1fr));
 }
 .footer-about p { color: var(--text-muted); font-size: .9rem; max-width: 330px; }
+
+.footer-contact { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.footer-contact a {
+    display: inline-flex; align-items: center; gap: 9px;
+    color: var(--text-muted); font-size: .87rem; font-weight: 600;
+    transition: color .2s var(--ease);
+}
+.footer-contact a:hover { color: var(--brand); }
+.footer-contact svg { width: 16px; height: 16px; flex: 0 0 auto; color: var(--brand); }
+
+.footer-social { display: flex; gap: 8px; margin-top: 16px; }
+.footer-social a {
+    width: 38px; height: 38px; display: grid; place-items: center;
+    border: 1px solid var(--border); border-radius: var(--radius-full);
+    color: var(--text-muted); background: var(--surface);
+    transition: background-color .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
+}
+.footer-social a:hover {
+    background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+    border-color: transparent; color: var(--brand-ink); transform: translateY(-2px);
+}
+.footer-social svg { width: 17px; height: 17px; }
+
 .footer-col h4 { font-size: .8rem; letter-spacing: .11em; text-transform: uppercase; color: var(--text); margin-bottom: 15px; font-family: var(--font-body); font-weight: 700; }
 .footer-col ul { list-style: none; margin: 0; padding: 0; }
 .footer-col li { margin-bottom: 9px; }
@@ -996,8 +1354,8 @@ table.data td:first-child, table.data th:first-child { white-space: normal; min-
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .footer-about { grid-column: 1 / -1; }
     .footer-bottom { justify-content: center; text-align: center; }
-    .rate-row { gap: 12px; padding: 14px 16px; }
-    .rate-row .rate-name { font-size: .89rem; }
+    .rate-card { padding: 18px; }
+    .rate-card__name { font-size: .92rem; }
 }
 
 @media (max-width: 380px) {
@@ -1216,6 +1574,74 @@ table.data td:first-child, table.data th:first-child { white-space: normal; min-
         padding: 8px 14px;
         font-size: 0.76rem;
     }
+}
+
+/* -------------------------------------------------------- contact page -- */
+.contact-grid {
+    display: grid; gap: 28px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    align-items: start;
+}
+
+.contact-info {
+    position: sticky; top: calc(var(--header-h) + 20px);
+    background: linear-gradient(160deg, color-mix(in srgb, var(--brand) 9%, var(--surface)), color-mix(in srgb, var(--gold) 10%, var(--surface)));
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: clamp(26px, 3vw, 34px); box-shadow: var(--shadow-sm);
+}
+.contact-info h2 { margin-bottom: 8px; }
+.contact-info > p { color: var(--text-muted); font-size: .92rem; margin-bottom: 22px; }
+
+.contact-info__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.contact-info__list li { display: flex; align-items: center; gap: 12px; }
+.contact-info__list a { color: var(--text); font-weight: 600; font-size: .93rem; word-break: break-word; }
+.contact-info__list a:hover { color: var(--brand); }
+.contact-info__icon {
+    flex: 0 0 auto; width: 38px; height: 38px; display: grid; place-items: center;
+    border-radius: var(--radius-full); background: var(--surface);
+    border: 1px solid var(--border); color: var(--brand);
+}
+.contact-info__icon svg { width: 17px; height: 17px; }
+
+.contact-info__branches { margin-top: 26px; width: 100%; justify-content: center; }
+
+.contact-form-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: clamp(26px, 3vw, 36px); box-shadow: var(--shadow-sm);
+}
+
+.contact-form__trap {
+    position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;
+}
+
+.field-grid { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; }
+.field { margin-bottom: 18px; }
+.field:last-of-type { margin-bottom: 0; }
+.field label { display: block; font-size: .82rem; font-weight: 700; color: var(--text); margin-bottom: 7px; }
+.field-optional { font-weight: 500; color: var(--text-faint); }
+.field input, .field textarea {
+    width: 100%; padding: 12px 15px; font: inherit; font-size: .94rem; color: var(--text);
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    transition: border-color .2s var(--ease), background-color .2s var(--ease);
+}
+.field input:focus, .field textarea:focus {
+    outline: none; border-color: var(--brand); background: var(--surface);
+}
+.field textarea { resize: vertical; min-height: 130px; font-family: var(--font-body); }
+.field-error { display: block; margin-top: 6px; font-size: .78rem; color: var(--c4); font-weight: 600; }
+
+.contact-form .btn-primary { margin-top: 4px; }
+
+.alert {
+    padding: 14px 18px; border-radius: var(--radius-sm); margin-bottom: 22px;
+    font-size: .89rem; font-weight: 600;
+}
+.alert-ok { background: color-mix(in srgb, #17795e 12%, var(--surface)); color: #0f5f49; border: 1px solid color-mix(in srgb, #17795e 30%, var(--border)); }
+
+@media (max-width: 860px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-info { position: static; }
+    .field-grid { grid-template-columns: 1fr; gap: 0; }
 }
 
 /* ----------------------------------------------------------- printing -- */

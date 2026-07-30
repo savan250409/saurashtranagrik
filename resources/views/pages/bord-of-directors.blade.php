@@ -90,6 +90,41 @@
             ['Shri Sagarbhai Hirpara', 'Board Member'],
         ]],
     ];
+
+    /**
+     * Short tab label from a full heading:
+     * "Ad. Board Member ( Bagasara Branch )" -> "Bagasara".
+     * The full heading is still rendered inside the panel, so no wording is lost.
+     */
+    $branchName = function (string $heading): string {
+        if (preg_match('/\(([^)]+)\)/', $heading, $m)) {
+            return trim(preg_replace('/\s*Branch\s*$/i', '', trim($m[1])));
+        }
+
+        return $heading;
+    };
+
+    /**
+     * Initials for the avatar chip, ignoring honorifics so
+     * "Shri Dr.Hiteshbhai Bodar" reads as "HB" rather than "SB".
+     */
+    $initials = function (string $name): string {
+        $clean = $name;
+        // run twice: names like "Shri Dr. Sanjaybhai ..." stack two honorifics
+        for ($i = 0; $i < 2; $i++) {
+            $clean = preg_replace('/^\s*(shri|smt|dr|ad|mr|mrs)\.?\s*/i', '', $clean);
+        }
+
+        $parts = preg_split('/\s+/', trim($clean), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        if (! $parts) {
+            return '?';
+        }
+
+        $first = $parts[0];
+        $last = count($parts) > 1 ? $parts[count($parts) - 1] : '';
+
+        return mb_strtoupper(mb_substr($first, 0, 1).mb_substr($last, 0, 1));
+    };
 @endphp
 
 @section('content')
@@ -125,22 +160,50 @@
             <div class="section-head reveal">
                 <span class="eyebrow">Branch boards</span>
                 <h2>Advisory Board Members</h2>
-                <p>Board members appointed at each branch.</p>
+                <p>Board members appointed at each branch. Pick a branch to see its roster.</p>
             </div>
 
-            @foreach ($boardGroups as [$heading, $people])
-                <div class="reveal" style="margin-bottom:34px">
-                    <h3 style="font-size:1.05rem;margin-bottom:14px">{{ $heading }}</h3>
-                    <div class="grid grid--4">
-                        @foreach ($people as [$name, $role])
-                            <div class="card" style="padding:16px 18px">
-                                <p style="margin:0;font-weight:600;font-size:.94rem">{{ $name }}</p>
-                                <p style="margin:0;color:var(--text-muted);font-size:.82rem">{{ $role }}</p>
-                            </div>
-                        @endforeach
-                    </div>
+            <div class="reveal">
+                <div class="roster-tabs" role="tablist" aria-label="Branches">
+                    @foreach ($boardGroups as [$heading, $people])
+                        <button type="button" class="roster-tab" role="tab"
+                                id="roster-tab-{{ $loop->index }}"
+                                aria-controls="roster-panel-{{ $loop->index }}"
+                                aria-selected="{{ $loop->first ? 'true' : 'false' }}"
+                                tabindex="{{ $loop->first ? '0' : '-1' }}">
+                            {{ $branchName($heading) }}
+                            <span class="count">{{ count($people) }}</span>
+                        </button>
+                    @endforeach
                 </div>
-            @endforeach
+
+                @foreach ($boardGroups as [$heading, $people])
+                    <div @class(['card', 'roster-panel', 'is-active' => $loop->first])
+                         role="tabpanel"
+                         id="roster-panel-{{ $loop->index }}"
+                         aria-labelledby="roster-tab-{{ $loop->index }}"
+                         tabindex="0">
+                        <div class="card-body">
+                            <div class="roster-head">
+                                {{-- the full original heading is kept verbatim --}}
+                                <h3>{{ $heading }}</h3>
+                                <span class="roster-count">{{ count($people) }} members</span>
+                            </div>
+                            <div class="roster-list">
+                                @foreach ($people as [$name, $role])
+                                    <div @class(['roster-person', 'roster-person--lead' => str_contains(strtolower($role), 'md')])>
+                                        <span class="roster-avatar" aria-hidden="true">{{ $initials($name) }}</span>
+                                        <span class="roster-person__text">
+                                            <span class="roster-person__name">{{ $name }}</span><br>
+                                            <span class="roster-person__role">{{ $role }}</span>
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </section>
 @endsection

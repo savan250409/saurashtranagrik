@@ -22,6 +22,30 @@
                     </span>
                 </a>
                 <p>Serving members across Bagasara, Kunkavav, Bhesan, Chuda, Visavadar, Bhalgam, Amreli, Dhari, Ahmedabad, Junagadh and Mendarda.</p>
+
+                <ul class="footer-contact">
+                    <li>
+                        <a href="mailto:{{ config('site.contact.email') }}">
+                            @include('partials.icon', ['name' => 'mail'])
+                            {{ config('site.contact.email') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tel:{{ preg_replace('/\D+/', '', config('site.contact.phone')) }}">
+                            @include('partials.icon', ['name' => 'phone'])
+                            {{ config('site.contact.phone') }}
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="footer-social">
+                    <a href="{{ config('site.contact.social.instagram') }}" target="_blank" rel="noopener" aria-label="Instagram">
+                        @include('partials.icon', ['name' => 'instagram'])
+                    </a>
+                    <a href="{{ config('site.contact.social.facebook') }}" target="_blank" rel="noopener" aria-label="Facebook">
+                        @include('partials.icon', ['name' => 'facebook'])
+                    </a>
+                </div>
             </div>
 
             <div class="footer-col">
@@ -54,7 +78,7 @@
 
         <div class="footer-bottom">
             <p style="margin:0">Copyright &copy; Shree Saurashtra Nagrik Sarafi Mandali Ltd. All Rights Reserved</p>
-            <p style="margin:0">Developed by <a href="https://www.dataverseanalytics.in" target="_blank" rel="noopener">Dataverse Analytics</a></p>
+            <p style="margin:0">Developed by <a href="https://www.dataverseanalytics.in" target="_blank" rel="noopener">NGD Technolab</a></p>
         </div>
     </div>
 </footer>

@@ -1,51 +1,11 @@
 /* =========================================================================
    Site behaviour. No dependencies.
-   The theme is applied by a tiny inline script in <head> so there is never a
-   flash of the wrong theme; this file only handles the toggle afterwards.
    ========================================================================= */
 (function () {
     'use strict';
 
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-    /* ---------------------------------------------------- theme toggle -- */
-    (function theme() {
-        var root = document.documentElement;
-        var btns = document.querySelectorAll('.theme-toggle');
-        if (!btns.length) return;
-
-        function label() {
-            var isDark = root.getAttribute('data-theme') === 'dark';
-            btns.forEach(function (btn) {
-                btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
-                btn.setAttribute('title', isDark ? 'Light mode' : 'Dark mode');
-                btn.setAttribute('aria-pressed', String(isDark));
-            });
-        }
-
-        btns.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-                root.setAttribute('data-theme', next);
-                try { localStorage.setItem('theme', next); } catch (e) { /* private mode */ }
-                label();
-            });
-        });
-
-        // follow the OS only while the visitor has not chosen explicitly
-        var mq = window.matchMedia('(prefers-color-scheme: dark)');
-        var onChange = function (e) {
-            var stored = null;
-            try { stored = localStorage.getItem('theme'); } catch (err) { /* ignore */ }
-            if (stored) return;
-            root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-            label();
-        };
-        mq.addEventListener ? mq.addEventListener('change', onChange) : mq.addListener(onChange);
-
-        label();
-    })();
 
     /* ------------------------------------------------- mobile full menu -- */
     (function mobileNav() {
@@ -259,7 +219,7 @@
     /* ----------------------------------------------------- card spotlight -- */
     (function spotlight() {
         if (reduceMotion || !finePointer) return;
-        var SELECTOR = '.card--hover, .rate-row, .download-row';
+        var SELECTOR = '.card--hover, .rate-card, .doc-card';
         document.addEventListener('pointermove', function (e) {
             var el = e.target.closest(SELECTOR);
             if (!el) return;
@@ -288,6 +248,101 @@
                 btn.style.transform = 'translate(0,0)';
             });
         });
+    })();
+
+    /* ------------------------------------------------ branch roster tabs -- */
+    (function roster() {
+        var tablist = document.querySelector('.roster-tabs');
+        if (!tablist) return;
+
+        var tabs = Array.prototype.slice.call(tablist.querySelectorAll('.roster-tab'));
+        var panels = Array.prototype.slice.call(document.querySelectorAll('.roster-panel'));
+        // bail out rather than half-apply if the markup pairs up wrongly - the
+        // CSS fallback then leaves every panel visible
+        if (!tabs.length || tabs.length !== panels.length) return;
+
+        function select(i, moveFocus) {
+            tabs.forEach(function (tab, n) {
+                var on = n === i;
+                tab.setAttribute('aria-selected', String(on));
+                tab.setAttribute('tabindex', on ? '0' : '-1');
+                panels[n].classList.toggle('is-active', on);
+            });
+            if (moveFocus) {
+                tabs[i].focus();
+                // keep the chosen pill on screen when the bar scrolls sideways
+                tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+            }
+        }
+
+        tabs.forEach(function (tab, i) {
+            tab.addEventListener('click', function () { select(i); });
+            tab.addEventListener('keydown', function (e) {
+                var next = null;
+                if (e.key === 'ArrowRight') next = (i + 1) % tabs.length;
+                else if (e.key === 'ArrowLeft') next = (i - 1 + tabs.length) % tabs.length;
+                else if (e.key === 'Home') next = 0;
+                else if (e.key === 'End') next = tabs.length - 1;
+                if (next === null) return;
+                e.preventDefault();
+                select(next, true);
+            });
+        });
+
+        // no scrollIntoView here: on load it could yank the page down to the tabs
+        select(0);
+    })();
+
+    /* -------------------------------------------------- maturity explorer -- */
+    (function maturity() {
+        var group = document.querySelector('.maturity-chips');
+        if (!group) return;
+
+        var chips = Array.prototype.slice.call(group.querySelectorAll('.maturity-chip'));
+        var cards = Array.prototype.slice.call(document.querySelectorAll('.maturity-card'));
+        if (!chips.length || !cards.length) return;
+
+        function select(index, moveFocus) {
+            var amount = chips[index].getAttribute('data-amount');
+
+            chips.forEach(function (chip, i) {
+                var on = i === index;
+                chip.setAttribute('aria-checked', String(on));
+                chip.setAttribute('tabindex', on ? '0' : '-1');
+            });
+
+            cards.forEach(function (card) {
+                var values = Array.prototype.slice.call(card.querySelectorAll('.maturity-value'));
+                var matched = false;
+                values.forEach(function (v) {
+                    var on = v.getAttribute('data-amount') === amount;
+                    v.classList.toggle('is-active', on);
+                    if (on) matched = true;
+                });
+                // A term that does not offer this amount would otherwise render
+                // blank; fall back to its first value, whose own label states
+                // which amount it belongs to, so it can never mislead.
+                if (!matched && values.length) values[0].classList.add('is-active');
+            });
+
+            if (moveFocus) chips[index].focus();
+        }
+
+        chips.forEach(function (chip, i) {
+            chip.addEventListener('click', function () { select(i); });
+            chip.addEventListener('keydown', function (e) {
+                var next = null;
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % chips.length;
+                else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i - 1 + chips.length) % chips.length;
+                else if (e.key === 'Home') next = 0;
+                else if (e.key === 'End') next = chips.length - 1;
+                if (next === null) return;
+                e.preventDefault();
+                select(next, true);
+            });
+        });
+
+        select(0);
     })();
 
     /* ------------------------------------------------------ video gallery -- */

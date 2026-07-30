@@ -12,23 +12,54 @@
         </div>
     </div>
 
+    @php
+        // Smallest numeric rate on the page, so the cheapest borrowing option is
+        // marked from the data rather than hard-coded. Non-numeric values (if any
+        // are ever added) are simply ignored.
+        $numericRates = $loans->pluck('rate')
+            ->filter(fn ($r) => is_numeric(str_replace('%', '', (string) $r)))
+            ->map(fn ($r) => (float) str_replace('%', '', (string) $r));
+        $lowestRate = $numericRates->isNotEmpty() ? $numericRates->min() : null;
+    @endphp
+
     <section class="section">
         <div class="wrap">
-            <div class="grid grid--2 reveal-group">
+            <div class="rate-grid reveal-group">
                 @foreach ($loans as $loan)
-                    <div class="rate-row">
-                        <span class="rate-icon">
-                            @if ($loan->icon)
+                    @php
+                        $clean = str_replace('%', '', (string) $loan->rate);
+                        $isLowest = $lowestRate !== null && is_numeric($clean) && (float) $clean === $lowestRate;
+                    @endphp
+
+                    <article @class(['rate-card', 'rate-card--badged' => $isLowest])>
+                        @if ($loan->icon)
+                            <span class="rate-card__mark" aria-hidden="true">
                                 <img src="{{ asset($loan->icon) }}" alt="" loading="lazy" decoding="async">
-                            @else
-                                @include('partials.icon', ['name' => 'coins'])
-                            @endif
-                        </span>
-                        <span class="rate-name">{{ $loan->title }}</span>
-                        @if ($loan->rate)
-                            <span class="rate-value">{{ $loan->rate }}</span>
+                            </span>
                         @endif
-                    </div>
+
+                        @if ($isLowest)
+                            <span class="rate-card__badge">Lowest rate</span>
+                        @endif
+
+                        <div class="rate-card__head">
+                            <span class="rate-card__icon">
+                                @if ($loan->icon)
+                                    <img src="{{ asset($loan->icon) }}" alt="" loading="lazy" decoding="async">
+                                @else
+                                    @include('partials.icon', ['name' => 'coins'])
+                                @endif
+                            </span>
+                            <span class="rate-card__name">{{ $loan->title }}</span>
+                        </div>
+
+                        @if ($loan->rate)
+                            <div class="rate-card__foot">
+                                <span @class(['rate-card__value', 'rate-card__value--long' => mb_strlen((string) $loan->rate) > 5])>{{ $loan->rate }}</span>
+                                <span class="rate-card__label">Interest rate</span>
+                            </div>
+                        @endif
+                    </article>
                 @endforeach
             </div>
         </div>

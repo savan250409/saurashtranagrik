@@ -1,21 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <title>Admin Login &middot; Saurashtra Nagrik</title>
     <link rel="icon" href="{{ asset('images/fav.png') }}" type="image/png">
-    <script>
-        (function () {
-            try {
-                var stored = localStorage.getItem('theme');
-                var dark = stored ? stored === 'dark'
-                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-            } catch (e) { /* storage blocked - keep light */ }
-        })();
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">

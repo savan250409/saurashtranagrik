@@ -21,8 +21,6 @@
         'chevron-right' => '<path d="m9 18 6-6-6-6"/>',
         'check'     => '<path d="M20 6 9 17l-5-5"/>',
         'star'      => '<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1Z"/>',
-        'sun'       => '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/>',
-        'moon'      => '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>',
         'menu'      => '<path d="M3 6h18M3 12h18M3 18h18"/>',
         'close'     => '<path d="M18 6 6 18M6 6l12 12"/>',
         'bank'      => '<path d="m3 10 9-6 9 6"/><path d="M5 10v9M19 10v9M9 10v9M15 10v9M3 21h18"/>',
@@ -32,6 +30,9 @@
         'sparkles'  => '<path d="m12 3 1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9Z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8Z"/>',
         'shield'    => '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/>',
         'coins'     => '<circle cx="8" cy="8" r="6"/><path d="M18.1 10.4a6 6 0 1 1-8.7 7.7"/><path d="M7 6h2v4"/>',
+        'mail'      => '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+        'instagram' => '<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>',
+        'facebook'  => '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3Z"/>',
     ];
     $d = $paths[$name] ?? $paths['star'];
     $extraClass = $class ?? '';

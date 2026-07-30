@@ -14,37 +14,50 @@
 
     <section class="section">
         <div class="wrap">
-            <div class="grid grid--3 reveal-group">
+            <div class="branch-index reveal-group">
                 @foreach ($branches as $branch)
-                    <article class="card card--hover accent-card" style="--accent: var(--{{ $branch->color_class }})">
-                        <div class="accent-head">
-                            <span class="dot">@include('partials.icon', ['name' => 'pin'])</span>
-                            <h3>{{ $branch->name }}</h3>
-                        </div>
-                        <div class="card-body">
-                            @if ($branch->address)
-                                <p class="info-line">
-                                    @include('partials.icon', ['name' => 'building'])
-                                    <span>{!! nl2br(e($branch->address)) !!}</span>
-                                </p>
-                            @endif
+                    @php
+                        // The Privacy Policy names the head office as
+                        // "Samarth Saurashtra Building, Amarpara, Bagasara" - only
+                        // one branch sits at that address, so the label is derived
+                        // from the data rather than hard-coded to a position.
+                        $isHeadOffice = str_contains((string) $branch->address, 'Samarth Saurashtra Building');
+                        // the stored address breaks before "Dist. -"; one line reads
+                        // better in a wide row and no wording changes
+                        $address = preg_replace('/\s*\R\s*/', ' ', (string) $branch->address);
+                    @endphp
 
-                            @if ($branch->phone || $branch->mobile)
-                                <hr class="info-divider">
+                    <article class="branch-row" style="--accent: var(--{{ $branch->color_class }})">
+                        <span class="branch-row__num" aria-hidden="true">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+
+                        <div class="branch-row__body">
+                            <h2 class="branch-row__name">
+                                {{ $branch->name }}
+                                @if ($isHeadOffice)
+                                    <span class="branch-badge">Head Office</span>
+                                @endif
+                            </h2>
+                            @if ($address !== '')
+                                <p class="branch-row__addr">{{ $address }}</p>
+                            @endif
+                        </div>
+
+                        @if ($branch->phone || $branch->mobile)
+                            <div class="branch-row__contacts">
                                 @if ($branch->phone)
-                                    <p class="info-line">
+                                    <a class="branch-chip" href="tel:{{ preg_replace('/\D+/', '', $branch->phone) }}">
                                         @include('partials.icon', ['name' => 'phone'])
-                                        <a href="tel:{{ preg_replace('/\D+/', '', $branch->phone) }}">{{ $branch->phone }}</a>
-                                    </p>
+                                        {{ $branch->phone }}
+                                    </a>
                                 @endif
                                 @if ($branch->mobile)
-                                    <p class="info-line">
+                                    <a class="branch-chip" href="tel:{{ preg_replace('/\D+/', '', $branch->mobile) }}">
                                         @include('partials.icon', ['name' => 'mobile'])
-                                        <a href="tel:{{ preg_replace('/\D+/', '', $branch->mobile) }}">{{ $branch->mobile }}</a>
-                                    </p>
+                                        {{ $branch->mobile }}
+                                    </a>
                                 @endif
-                            @endif
-                        </div>
+                            </div>
+                        @endif
                     </article>
                 @endforeach
             </div>
