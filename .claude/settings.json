@@ -60,7 +60,25 @@
       "Bash(curl -s -c contact-cookies.txt -b contact-cookies.txt http://127.0.0.1:8123/contact-us -o after-invalid.html)",
       "Bash(curl -s -c contact-cookies.txt -b contact-cookies.txt http://127.0.0.1:8123/contact-us -o after-valid.html)",
       "Bash(node contact-shot.js)",
-      "Bash(curl -s -o /dev/null -w \"contact-us cached: %{http_code}\\\\n\" http://127.0.0.1:8123/contact-us)"
+      "Bash(curl -s -o /dev/null -w \"contact-us cached: %{http_code}\\\\n\" http://127.0.0.1:8123/contact-us)",
+      "Bash(node mobile-scan.js)",
+      "Bash(curl -s http://127.0.0.1:8123/terms-and-conditions)",
+      "Bash(node probe-buttons.js)",
+      "Bash(node hub-probe.js)",
+      "Bash(rm -rf chrome-hubprobe hub-region.png hub-probe.js)",
+      "Bash(node mobile-segments.js \"\")",
+      "Bash(node mobile-segments.js contact-us bord-of-directors branches schemes loan deposit manager downloads)",
+      "Bash(node element-probe.js \"http://127.0.0.1:8123/bord-of-directors\" \".roster-tabs\" \"roster-tabs-check.png\")",
+      "Bash(node element-probe.js \"http://127.0.0.1:8123/bord-of-directors\" \".roster-tabs\" \"roster-tabs-check2.png\")",
+      "Bash(node mobile-segments.js progress-report paku-sarvaiyu profit-loss event statement privacy-policy terms-and-conditions)",
+      "Bash(curl -s http://127.0.0.1:8123/paku-sarvaiyu)",
+      "Bash(rm -rf mobile-segments)",
+      "Bash(node mobile-segments.js paku-sarvaiyu profit-loss progress-report)",
+      "Bash(curl -s -o /dev/null -w \"desktop paku-sarvaiyu: %{http_code}\\\\n\" http://127.0.0.1:8123/paku-sarvaiyu)",
+      "Bash(node desktop-hint-check.js)",
+      "Bash(node mobile-segments.js event statement privacy-policy terms-and-conditions contact-us)",
+      "Bash(node mobile-segments.js admin/login)",
+      "Bash(node admin-mobile-check.js)"
     ]
   }
 }

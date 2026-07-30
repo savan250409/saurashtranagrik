@@ -22,6 +22,7 @@
 
             <p class="reveal" style="text-align:center;color:var(--text-muted);margin-bottom:22px">Balanced till 31/03/2023</p>
 
+            <p class="scroll-hint">Scroll the table sideways to see every column.</p>
             <div class="table-scroll reveal">
                 <table class="data">
                 <thead>
@@ -583,9 +584,9 @@
                 </tbody>
                 </table>
             </div>
-            <p class="scroll-hint">Scroll the table sideways to see every column.</p>
 
-            <div class="table-scroll reveal" style="margin-top:26px">
+            <p class="scroll-hint" style="margin-top:26px">Scroll the table sideways to see every column.</p>
+            <div class="table-scroll reveal" style="margin-top:10px">
                 <table class="data">
                 <thead>
                 <tr>
@@ -1247,10 +1248,9 @@
                 <td class="fw-bold">7149475.59</td>
                 <td class="fw-bold">808849643.85</td>
                 </tr>
-                </thead>
+                </tbody>
                 </table>
             </div>
-            <p class="scroll-hint">Scroll the table sideways to see every column.</p>
         </div>
     </section>
 @endsection

@@ -22,6 +22,7 @@
 
             <p class="reveal" style="text-align:center;color:var(--text-muted);margin-bottom:22px">Profit and loss account up to 31/03/2023</p>
 
+            <p class="scroll-hint">Scroll the table sideways to see every column.</p>
             <div class="table-scroll reveal">
                 <table class="data">
                 <thead>
@@ -38,6 +39,8 @@
                 <th>Dhari</th>
                 <th>Total</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr>
                 <td colspan="2" class="fw-bold">Interest on loans</td>
                 <td class="fw-bold">21842413.00</td>
@@ -281,12 +284,12 @@
                 <td class="fw-bold">99749.00</td>
                 <td class="fw-bold">80446680.00</td>
                 </tr>
-                </thead>
+                </tbody>
                 </table>
             </div>
-            <p class="scroll-hint">Scroll the table sideways to see every column.</p>
 
-            <div class="table-scroll reveal" style="margin-top:26px">
+            <p class="scroll-hint" style="margin-top:26px">Scroll the table sideways to see every column.</p>
+            <div class="table-scroll reveal" style="margin-top:10px">
                 <table class="data">
                 <thead>
                 <tr>
@@ -1035,7 +1038,6 @@
                 </tbody>
                 </table>
             </div>
-            <p class="scroll-hint">Scroll the table sideways to see every column.</p>
         </div>
     </section>
 @endsection

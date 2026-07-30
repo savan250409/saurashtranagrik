@@ -19,11 +19,11 @@
 
     $sections = [
         ['loan', 'Interest rate and savings plan', 'coins', 'Compare every deposit and loan rate we offer, in one place.'],
-        ['profit-loss', 'Profit loss account', 'chart', 'Read More'],
-        ['activity', 'Activities', 'sparkles', 'Read More'],
-        ['progress-report', 'Progress Report', 'clipboard', 'Read More'],
-        ['paku-sarvaiyu', 'Balance Sheet', 'bank', 'Read More'],
-        ['event', 'Events', 'calendar', 'Read More'],
+        ['profit-loss', 'Profit loss account', 'chart', 'Profit and loss account, branch by branch.'],
+        ['activity', 'Activities', 'sparkles', 'The deposit, savings and credit facilities we provide to members.'],
+        ['progress-report', 'Progress Report', 'clipboard', 'Year on year growth of the Mandali.'],
+        ['paku-sarvaiyu', 'Balance Sheet', 'bank', 'Audited balance sheet figures, branch by branch.'],
+        ['event', 'Events', 'calendar', 'Moments from our work in the community.'],
     ];
 
     $districts = ['Bagasara', 'Kunkavav', 'Bhesan', 'Chuda', 'Visavadar', 'Bhalgam', 'Amreli', 'Dhari', 'Ahmedabad', 'Junagadh', 'Mendarda'];

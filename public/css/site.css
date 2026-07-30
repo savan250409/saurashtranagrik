@@ -787,7 +787,16 @@ table.data tbody tr:last-child td { border-bottom: 0; }
 table.data tbody tr:hover td { background: var(--surface-2); }
 table.data td:first-child, table.data th:first-child { white-space: normal; min-width: 150px; }
 
-.scroll-hint { font-size: .8rem; color: var(--text-faint); margin: 10px 0 0; text-align: center; }
+/* Sits above its table (not below) so a mobile visitor knows to swipe
+   sideways before scrolling past dozens of otherwise numberless rows. */
+.scroll-hint {
+    display: none;
+    font-size: .8rem; font-weight: 600; color: var(--brand);
+    margin: 0 0 10px; text-align: center;
+}
+@media (max-width: 720px) {
+    .scroll-hint { display: block; }
+}
 
 /* ------------------------------------------------------- accordion ----- */
 .accordion { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
