@@ -80,7 +80,7 @@
                         Dist. Amreli, Gujarat, India
                     </p>
                     <p>
-                        Phone: <a href="tel:02796220525">(02796) 220 525</a> &nbsp;|&nbsp; Mobile: <a href="tel:9484529400">94845 29400</a>
+                        Phone: <a href="tel:02796220525" target="_blank" rel="noopener">(02796) 220 525</a> &nbsp;|&nbsp; Mobile: <a href="tel:9484529400" target="_blank" rel="noopener">94845 29400</a>
                     </p>
                     <p>
                         Website: <a href="{{ route('home') }}">saurashtranagrik.com</a>

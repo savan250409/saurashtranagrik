@@ -60,6 +60,25 @@
         update();
     })();
 
+    /* -------------------------------------------------------- back to top -- */
+    (function backToTop() {
+        var btn = document.querySelector('.back-to-top');
+        if (!btn) return;
+        var ticking = false;
+        function update() {
+            btn.classList.toggle('is-visible', window.scrollY > 500);
+            ticking = false;
+        }
+        window.addEventListener('scroll', function () {
+            if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+        }, { passive: true });
+        update();
+
+        btn.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+        });
+    })();
+
     /* -------------------------------------------------------- accordion -- */
     (function accordion() {
         document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
@@ -219,7 +238,7 @@
     /* ----------------------------------------------------- card spotlight -- */
     (function spotlight() {
         if (reduceMotion || !finePointer) return;
-        var SELECTOR = '.card--hover, .rate-card, .doc-card';
+        var SELECTOR = '.card--hover, .doc-card';
         document.addEventListener('pointermove', function (e) {
             var el = e.target.closest(SELECTOR);
             if (!el) return;

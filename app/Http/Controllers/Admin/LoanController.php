@@ -17,12 +17,23 @@ class LoanController extends BaseCrudController
 
     protected array $searchable = ['title', 'rate'];
 
-    protected array $uploads = ['icon' => 'loan'];
+    /** Same pictogram set every card links back to via partials.icon. */
+    public const ICON_OPTIONS = [
+        'coins' => 'Coins',
+        'building' => 'Building',
+        'shield' => 'Shield',
+        'file' => 'Document',
+        'star' => 'Star',
+        'bank' => 'Bank',
+        'chart' => 'Chart',
+        'clipboard' => 'Clipboard',
+        'sparkles' => 'Sparkles',
+    ];
 
     protected function columns(): array
     {
         return [
-            'Icon' => fn (Loan $l) => $l->icon,
+            'Icon name' => fn (Loan $l) => self::ICON_OPTIONS[$l->icon] ?? $l->icon,
             'Loan' => fn (Loan $l) => $l->title,
             'Rate' => fn (Loan $l) => $l->rate ?: '—',
         ];
@@ -32,7 +43,7 @@ class LoanController extends BaseCrudController
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'icon' => ['nullable', 'image', 'max:4096'],
+            'icon' => ['required', 'string', 'in:'.implode(',', array_keys(self::ICON_OPTIONS))],
             'rate' => ['nullable', 'string', 'max:60'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ];

@@ -4,20 +4,24 @@
 @section('meta', 'Deposit, savings and loan activities offered by the Mandali.')
 
 @php
+    // Icons are simple single-colour pictograms (matching the homepage
+    // "Sections and Information" cards) rather than full-colour illustrations,
+    // so all 13 tiles read as one consistent set instead of a rainbow of
+    // unrelated stock-icon colours.
     $activities = [
-        ['Share Member', 'images/Activity/member.png'],
-        ['Fixes Deposit', 'images/Activity/Fixes Deposit.png'],
-        ['Special Fixed Deposit', 'images/Activity/Special Fixed Deposit.png'],
-        ['Monthly Deposit', 'images/Activity/Monthly Deposit.png'],
-        ['Reccuring Deposit', 'images/Activity/Reccuring Deposit.png'],
-        ['Running Saving', 'images/Activity/Running Saving.png'],
-        ['Daily Saving', 'images/Activity/Daily Saving.png'],
-        ['Mortgage Loan', 'images/Activity/Mortgage Loan.png'],
-        ['Gold Loan', 'images/Activity/Gold Loan.png'],
-        ['Jat-Jamingiri Loan', 'images/Activity/Jat-Jamingiri Loan.png'],
-        ['Mortgage CC', 'images/Activity/Mortgage CC.png'],
-        ['Gold CC', 'images/Activity/Gold CC.png'],
-        ['Plaz Loan', 'images/Activity/Plaz Loan.png'],
+        ['Share Member', 'user'],
+        ['Fixes Deposit', 'bank'],
+        ['Special Fixed Deposit', 'star'],
+        ['Monthly Deposit', 'calendar'],
+        ['Reccuring Deposit', 'repeat'],
+        ['Running Saving', 'coins'],
+        ['Daily Saving', 'clipboard'],
+        ['Mortgage Loan', 'building'],
+        ['Gold Loan', 'coins'],
+        ['Jat-Jamingiri Loan', 'file'],
+        ['Mortgage CC', 'building'],
+        ['Gold CC', 'coins'],
+        ['Plaz Loan', 'shield'],
     ];
 @endphp
 
@@ -33,10 +37,10 @@
     <section class="section">
         <div class="wrap">
             <div class="grid grid--4 reveal-group">
-                @foreach ($activities as [$title, $image])
+                @foreach ($activities as [$title, $icon])
                     <article class="card card--hover tile">
                         <span class="tile-icon">
-                            <img src="{{ asset($image) }}" alt="" loading="lazy" decoding="async">
+                            @include('partials.icon', ['name' => $icon])
                         </span>
                         <h3>{{ $title }}</h3>
                     </article>

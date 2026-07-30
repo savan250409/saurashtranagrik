@@ -45,13 +45,13 @@
                         @if ($branch->phone || $branch->mobile)
                             <div class="branch-row__contacts">
                                 @if ($branch->phone)
-                                    <a class="branch-chip" href="tel:{{ preg_replace('/\D+/', '', $branch->phone) }}">
+                                    <a class="branch-chip" href="tel:{{ preg_replace('/\D+/', '', $branch->phone) }}" target="_blank" rel="noopener">
                                         @include('partials.icon', ['name' => 'phone'])
                                         {{ $branch->phone }}
                                     </a>
                                 @endif
                                 @if ($branch->mobile)
-                                    <a class="branch-chip" href="tel:{{ preg_replace('/\D+/', '', $branch->mobile) }}">
+                                    <a class="branch-chip" href="tel:{{ preg_replace('/\D+/', '', $branch->mobile) }}" target="_blank" rel="noopener">
                                         @include('partials.icon', ['name' => 'mobile'])
                                         {{ $branch->mobile }}
                                     </a>

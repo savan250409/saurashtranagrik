@@ -32,23 +32,13 @@
                     @endphp
 
                     <article @class(['rate-card', 'rate-card--badged' => $isLowest])>
-                        @if ($loan->icon)
-                            <span class="rate-card__mark" aria-hidden="true">
-                                <img src="{{ asset($loan->icon) }}" alt="" loading="lazy" decoding="async">
-                            </span>
-                        @endif
-
                         @if ($isLowest)
                             <span class="rate-card__badge">Lowest rate</span>
                         @endif
 
                         <div class="rate-card__head">
                             <span class="rate-card__icon">
-                                @if ($loan->icon)
-                                    <img src="{{ asset($loan->icon) }}" alt="" loading="lazy" decoding="async">
-                                @else
-                                    @include('partials.icon', ['name' => 'coins'])
-                                @endif
+                                @include('partials.icon', ['name' => $loan->icon ?: 'coins'])
                             </span>
                             <span class="rate-card__name">{{ $loan->title }}</span>
                         </div>

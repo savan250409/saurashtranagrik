@@ -463,14 +463,15 @@ main.no-hero-pad { padding-top: 0; }
 .card-body { padding: 22px; }
 
 /* cursor-follow glow. Degrades gracefully: with no JS/pointer support the
-   gradient just centres itself and still glows on :hover. */
-.card--hover::after, .rate-card::after, .doc-card::after {
+   gradient just centres itself and still glows on :hover. Not on .rate-card -
+   loan cards keep only the top bar / lift / icon hover, no cursor glow. */
+.card--hover::after, .doc-card::after {
     content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; z-index: 0;
     background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%),
         color-mix(in srgb, var(--brand) 13%, transparent), transparent 72%);
     transition: opacity .4s var(--ease);
 }
-.card--hover:hover::after, .rate-card:hover::after, .doc-card:hover::after { opacity: 1; }
+.card--hover:hover::after, .doc-card:hover::after { opacity: 1; }
 .card--hover > *, .rate-card > *, .doc-card > * { position: relative; z-index: 1; }
 
 /* icon/feature tile */
@@ -482,6 +483,7 @@ main.no-hero-pad { padding-top: 0; }
     background: linear-gradient(150deg, color-mix(in srgb, var(--brand) 88%, transparent), color-mix(in srgb, var(--gold) 65%, var(--brand)));
     color: #fff;
     box-shadow: var(--shadow-sm);
+    transition: transform .3s var(--ease);
 }
 .tile .tile-icon svg { width: 25px; height: 25px; }
 /* Icons here are full-colour illustrations with their own circular background
@@ -491,6 +493,22 @@ main.no-hero-pad { padding-top: 0; }
 .tile .tile-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
 .tile h3 { font-size: 1.04rem; margin-bottom: 6px; }
 .tile p { color: var(--text-muted); font-size: .89rem; margin: 0; }
+
+/* Same hover treatment as the homepage's "Sections and Information" cards
+   and the Loan rate cards: a top gradient bar, a lift, the icon tilts - and
+   no cursor-follow glow (.tile opts out of the shared .card--hover::after). */
+.tile::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--brand), var(--gold));
+    opacity: 0; transition: opacity .35s var(--ease); z-index: 1;
+}
+.tile.card--hover::after { content: none; }
+.tile:hover.card--hover {
+    transform: translateY(-5px) !important;
+    box-shadow: var(--shadow-md);
+}
+.tile:hover::before { opacity: 1; }
+.tile:hover .tile-icon { transform: scale(1.08) rotate(-3deg); }
 
 /* person card (directors, managers) */
 .person { text-align: center; }
@@ -539,9 +557,23 @@ main.no-hero-pad { padding-top: 0; }
     padding: clamp(20px, 2.4vw, 26px);
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); box-shadow: var(--shadow-sm);
-    transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
 }
-.rate-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-glow); border-color: var(--border-strong); }
+/* Same hover treatment as the homepage's "Sections and Information" cards:
+   a gradient bar fades in along the top edge, the card lifts and the icon
+   gives a small scale + tilt. */
+.rate-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--brand), var(--gold));
+    opacity: 0; transition: opacity .35s var(--ease);
+}
+/* !important: the resting state set once .reveal-group's scroll-reveal
+   finishes (.js-anim .reveal-group.is-visible > *) carries higher
+   specificity (3 classes) than this 2-class hover rule and would otherwise
+   silently cancel the lift on any card that both reveals-in and has hover. */
+.rate-card:hover { transform: translateY(-5px) !important; box-shadow: var(--shadow-md); border-color: var(--border-strong); }
+.rate-card:hover::before { opacity: 1; }
+.rate-card:hover .rate-card__icon { transform: scale(1.08) rotate(-3deg); }
 
 /* oversized, very faint copy of the scheme icon in the corner */
 .rate-card__mark {
@@ -557,6 +589,7 @@ main.no-hero-pad { padding-top: 0; }
     width: 40px; height: 40px; flex: 0 0 auto;
     border-radius: 46% 54% 54% 46% / 50% 46% 54% 50%;
     display: grid; place-items: center;
+    transition: transform .3s var(--ease);
     background: linear-gradient(150deg, color-mix(in srgb, var(--brand) 88%, transparent), color-mix(in srgb, var(--gold) 65%, var(--brand)));
     color: #fff;
 }
@@ -1653,8 +1686,26 @@ table.data td:first-child, table.data th:first-child { white-space: normal; min-
     .field-grid { grid-template-columns: 1fr; gap: 0; }
 }
 
+/* ----------------------------------------------------------- back to top -- */
+.back-to-top {
+    position: fixed; right: 22px; bottom: 22px; z-index: 120;
+    width: 48px; height: 48px; display: grid; place-items: center;
+    border: none; border-radius: var(--radius-full); cursor: pointer;
+    background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+    color: var(--brand-ink); box-shadow: var(--shadow-md);
+    opacity: 0; transform: translateY(12px); pointer-events: none;
+    transition: opacity .25s var(--ease), transform .25s var(--ease), box-shadow .2s var(--ease);
+}
+.back-to-top.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+.back-to-top:hover { box-shadow: var(--shadow-lg); }
+.back-to-top svg { width: 22px; height: 22px; }
+
+@media (max-width: 640px) {
+    .back-to-top { right: 16px; bottom: 16px; width: 44px; height: 44px; }
+}
+
 /* ----------------------------------------------------------- printing -- */
 @media print {
-    .site-header, .site-footer, .hero, .footer-cta, .btn, .icon-btn, .pdf-modal { display: none !important; }
+    .site-header, .site-footer, .hero, .footer-cta, .btn, .icon-btn, .pdf-modal, .back-to-top { display: none !important; }
     body { background: #fff; color: #000; }
 }

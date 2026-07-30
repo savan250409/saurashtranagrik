@@ -20,7 +20,6 @@ return [
         'deposit' => 'Deposit',
         'manager' => 'Managers',
         'downloads' => 'Downloads',
-        'contact-us' => 'Contact Us',
     ],
 
     'footer' => [
@@ -54,10 +53,6 @@ return [
             'instagram' => 'https://www.instagram.com/saurashtra_mandali_bagasara/',
             'facebook' => 'https://www.facebook.com/SaurashtraNagarikSharafiSahkariMandali',
         ],
-        // Where the "Contact Us" form is delivered. Set to a test inbox for
-        // now per request - point CONTACT_FORM_RECIPIENT at the real mandali
-        // address (site.contact.email above) once testing is done.
-        'form_recipient' => env('CONTACT_FORM_RECIPIENT', 'savan@ngendevtech.com'),
     ],
 
 ];

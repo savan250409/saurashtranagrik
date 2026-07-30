@@ -21,7 +21,7 @@
                             <span class="lead-card__role">{{ $manager->designation }}</span>
                             <h2 class="lead-card__name">{{ $manager->name }}</h2>
                             @if ($manager->phone)
-                                <a class="lead-card__call" href="tel:{{ preg_replace('/\D+/', '', $manager->phone) }}">
+                                <a class="lead-card__call" href="tel:{{ preg_replace('/\D+/', '', $manager->phone) }}" target="_blank" rel="noopener">
                                     @include('partials.icon', ['name' => 'phone'])
                                     {{ $manager->phone }}
                                 </a>
@@ -49,7 +49,7 @@
                             <span class="ledger__person">
                                 {{ $manager->name }}
                                 @if ($manager->phone)
-                                    &middot; <a href="tel:{{ preg_replace('/\D+/', '', $manager->phone) }}">{{ $manager->phone }}</a>
+                                    &middot; <a href="tel:{{ preg_replace('/\D+/', '', $manager->phone) }}" target="_blank" rel="noopener">{{ $manager->phone }}</a>
                                 @endif
                             </span>
                         </div>

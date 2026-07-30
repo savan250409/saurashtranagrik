@@ -268,8 +268,12 @@
         transition: opacity .35s var(--ease);
     }
 
+    /* !important: beats the higher-specificity resting transform that
+       .js-anim .reveal-group.is-visible > * applies once this card has
+       scrolled into view (3 classes vs. this rule's 2), which would
+       otherwise silently cancel the lift. */
     .hub-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-5px) !important;
         box-shadow: var(--shadow-md);
         border-color: var(--border-strong);
         color: var(--text);

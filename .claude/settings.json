@@ -78,7 +78,29 @@
       "Bash(node desktop-hint-check.js)",
       "Bash(node mobile-segments.js event statement privacy-policy terms-and-conditions contact-us)",
       "Bash(node mobile-segments.js admin/login)",
-      "Bash(node admin-mobile-check.js)"
+      "Bash(node admin-mobile-check.js)",
+      "Bash(cp \"public/logo-lg-removebg-preview.png\" \"public/images/logo-lg.png\")",
+      "Bash(curl -s -o /dev/null -w \"home: %{http_code}\\\\n\" http://127.0.0.1:8123/)",
+      "Bash(node logo-check.js)",
+      "Bash(node mailto-check.js)",
+      "Bash(rm resources/views/pages/contact-us.blade.php app/Http/Controllers/ContactController.php app/Mail/ContactFormMail.php resources/views/emails/contact.blade.php)",
+      "Bash(rmdir app/Mail resources/views/emails)",
+      "Bash(curl -s -o /dev/null -w \"home cached: %{http_code}\\\\n\" http://127.0.0.1:8123/)",
+      "Bash(node hub-color-check.js)",
+      "Bash(curl -s -o /dev/null -w \"activity: %{http_code}\\\\n\" http://127.0.0.1:8123/activity)",
+      "Bash(node activity-uniform-check.js)",
+      "Bash(node mobile-segments.js activity schemes)",
+      "Bash(curl -s -o /dev/null -w \"loan: %{http_code}\\\\n\" http://127.0.0.1:8123/loan)",
+      "Bash(curl -s -o /dev/null -w \"admin loans list: %{http_code}\\\\n\" http://127.0.0.1:8123/admin/loans)",
+      "Bash(node loan-uniform-check.js)",
+      "Bash(node admin-loan-form-check.js)",
+      "Bash(node loan-crud-check.js)",
+      "Bash(curl -s -c cookies2.txt -b cookies2.txt http://127.0.0.1:8123/admin/loans/8/edit -o edit8b.html)",
+      "Bash(E:/xampp/php/php.exe -r \"chdir\\('e:/saurashtranagrik'\\);\")",
+      "Bash(node back-to-top-check.js)",
+      "Bash(node debug-btt.js)",
+      "Bash(node debug-btt-mobile.js)",
+      "Bash(node rate-card-hover-check.js)"
     ]
   }
 }

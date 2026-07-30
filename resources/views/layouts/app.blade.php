@@ -85,6 +85,10 @@
     @include('partials.footer')
     @include('partials.pdf-modal')
 
+    <button type="button" class="back-to-top" aria-label="Back to top">
+        @include('partials.icon', ['name' => 'chevron-up'])
+    </button>
+
     <script src="{{ asset('js/site.js') }}" defer></script>
     @stack('scripts')
 </body>

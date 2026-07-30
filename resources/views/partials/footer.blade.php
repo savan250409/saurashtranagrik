@@ -25,13 +25,13 @@
 
                 <ul class="footer-contact">
                     <li>
-                        <a href="mailto:{{ config('site.contact.email') }}">
+                        <a href="mailto:{{ config('site.contact.email') }}" target="_blank" rel="noopener">
                             @include('partials.icon', ['name' => 'mail'])
                             {{ config('site.contact.email') }}
                         </a>
                     </li>
                     <li>
-                        <a href="tel:{{ preg_replace('/\D+/', '', config('site.contact.phone')) }}">
+                        <a href="tel:{{ preg_replace('/\D+/', '', config('site.contact.phone')) }}" target="_blank" rel="noopener">
                             @include('partials.icon', ['name' => 'phone'])
                             {{ config('site.contact.phone') }}
                         </a>
@@ -78,7 +78,7 @@
 
         <div class="footer-bottom">
             <p style="margin:0">Copyright &copy; Shree Saurashtra Nagrik Sarafi Mandali Ltd. All Rights Reserved</p>
-            <p style="margin:0">Developed by <a href="https://www.dataverseanalytics.in" target="_blank" rel="noopener">NGD Technolab</a></p>
+            <p style="margin:0">Developed by <a href="https://ngendevtech.com/" target="_blank" rel="noopener">NGD Technolab</a></p>
         </div>
     </div>
 </footer>

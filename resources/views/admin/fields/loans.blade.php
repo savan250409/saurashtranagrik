@@ -8,4 +8,11 @@
     <input id="rate" type="text" name="rate" value="{{ old('rate', $record->rate) }}" maxlength="60" placeholder="9%">
 </div>
 
-@include('admin.fields._upload', ['name' => 'icon', 'label' => 'Icon', 'accept' => 'image/*', 'full' => true])
+<div class="field">
+    <label for="icon">Icon</label>
+    <select id="icon" name="icon" required>
+        @foreach (\App\Http\Controllers\Admin\LoanController::ICON_OPTIONS as $value => $label)
+            <option value="{{ $value }}" @selected(old('icon', $record->icon ?? 'coins') === $value)>{{ $label }}</option>
+        @endforeach
+    </select>
+</div>
