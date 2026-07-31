@@ -61,7 +61,7 @@
                         <h1 style="text-align:center;">Banking built on trust, sixteen years strong</h1>
                         <p style="text-align:center;margin-left:auto;margin-right:auto;">A member-first co-operative society serving deposits, loans and savings across eleven branches in Gujarat.</p>
                         <div class="btn-row btn-row--center" style="justify-content:center;margin-left:auto;margin-right:auto;">
-                            <a class="btn btn-primary btn-magnetic" href="{{ route('deposit') }}">
+                            <a class="btn btn-primary" href="{{ route('deposit') }}">
                                 Explore deposits @include('partials.icon', ['name' => 'arrow-right'])
                             </a>
                             <a class="btn btn-ghost--dark" href="{{ route('statement') }}">Chairman's statement</a>

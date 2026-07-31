@@ -228,7 +228,7 @@ main.no-hero-pad { padding-top: 0; }
     -webkit-backdrop-filter: saturate(1.7) blur(16px);
     border: 1px solid var(--border);
     border-radius: var(--radius-full);
-    padding: 8px 10px 8px 20px;
+    padding: 12px;
     box-shadow: var(--shadow-sm);
     transition: box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
 }
@@ -251,7 +251,12 @@ main.no-hero-pad { padding-top: 0; }
 .nav a:hover { color: var(--text); background: var(--surface-2); }
 .nav a.is-active { color: var(--brand-ink); background: linear-gradient(135deg, var(--brand), var(--brand-strong)); }
 
-.header-actions { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+/* Holds the mobile menu button only. Hidden (not just emptied) on desktop:
+   an empty flex child still claims the bar's 18px column gap, which showed up
+   as dead space on the right and made the pill look off-centre. */
+/* margin-left:auto because .nav - which normally pushes everything right - is
+   hidden below the breakpoint, leaving the button stranded mid-bar. */
+.header-actions { display: none; margin-left: auto; align-items: center; gap: 6px; flex: 0 0 auto; }
 
 .icon-btn {
     width: 42px; height: 42px; display: grid; place-items: center;
@@ -769,8 +774,6 @@ main.no-hero-pad { padding-top: 0; }
 .btn-ghost:hover { background: var(--surface-2); border-color: var(--border-strong); color: var(--text); }
 .btn-ghost--dark { background: rgba(255, 255, 255, .1); color: #fff; border-color: rgba(255, 255, 255, .35); }
 .btn-ghost--dark:hover { background: rgba(255, 255, 255, .18); color: #fff; border-color: rgba(255, 255, 255, .55); }
-
-.btn-magnetic { will-change: transform; }
 
 .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn-row--center { justify-content: center; }
@@ -1377,6 +1380,7 @@ table.data td:first-child, table.data th:first-child { white-space: normal; min-
 /* --------------------------------------------------------- responsive -- */
 @media (max-width: 1040px) {
     .nav { display: none; }
+    .header-actions { display: flex; }
     .nav-toggle { display: grid; }
     .statement { grid-template-columns: 1fr; }
     .statement-photo { max-width: 320px; margin-inline: auto; }
@@ -1685,6 +1689,22 @@ table.data td:first-child, table.data th:first-child { white-space: normal; min-
     .contact-info { position: static; }
     .field-grid { grid-template-columns: 1fr; gap: 0; }
 }
+
+/* ------------------------------------------------------------- copy toast -- */
+/* Confirms a copied email address / phone number. Sits above the back-to-top
+   button so the two can never overlap on a short viewport. */
+.copy-toast {
+    position: fixed; left: 50%; bottom: 26px; z-index: 300;
+    transform: translate(-50%, 14px);
+    max-width: min(90vw, 420px);
+    padding: 12px 22px; border-radius: var(--radius-full);
+    background: var(--text); color: var(--bg);
+    font-size: .87rem; font-weight: 600; text-align: center;
+    box-shadow: var(--shadow-lg);
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.copy-toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
 
 /* ----------------------------------------------------------- back to top -- */
 .back-to-top {

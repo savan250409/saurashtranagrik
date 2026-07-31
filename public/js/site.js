@@ -235,6 +235,82 @@
         els.forEach(function (el) { io.observe(el); });
     })();
 
+    /* --------------------------------------------- email / phone copying -- */
+    /* A mailto: or tel: link lands the visitor on a blank page whenever the
+       browser has no handler registered for that protocol - common on desktop
+       Chrome, and guaranteed in Incognito. Touch devices always have a mail
+       and phone app, so there the native behaviour is left alone; on a fine
+       pointer we copy the address instead and confirm it, so a click can
+       never dead-end on an empty tab. */
+    (function copyContact() {
+        if (!finePointer) return;
+
+        var links = document.querySelectorAll('a[href^="mailto:"], a[href^="tel:"]');
+        if (!links.length) return;
+
+        var toast = document.createElement('div');
+        toast.className = 'copy-toast';
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toast);
+
+        var timer = null;
+        function announce(message) {
+            toast.textContent = message;
+            toast.classList.add('is-visible');
+            window.clearTimeout(timer);
+            timer = window.setTimeout(function () {
+                toast.classList.remove('is-visible');
+            }, 2400);
+        }
+
+        function copy(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                return navigator.clipboard.writeText(text);
+            }
+            // Older browsers, and any page not served over a secure context.
+            return new Promise(function (resolve, reject) {
+                var field = document.createElement('textarea');
+                field.value = text;
+                field.setAttribute('readonly', '');
+                field.style.position = 'fixed';
+                field.style.left = '-9999px';
+                document.body.appendChild(field);
+                field.select();
+                var done = false;
+                try { done = document.execCommand('copy'); } catch (e) { done = false; }
+                document.body.removeChild(field);
+                done ? resolve() : reject();
+            });
+        }
+
+        links.forEach(function (link) {
+            var href = link.getAttribute('href') || '';
+            var isMail = href.indexOf('mailto:') === 0;
+            // Prefer the visible text: a tel: href is stripped to bare digits,
+            // whereas the label keeps the readable "+91-9327201086" grouping.
+            // Falls back to the href (minus scheme and any ?subject=...).
+            var value = (link.textContent || '').trim() ||
+                href.replace(/^mailto:/, '').replace(/^tel:/, '').split('?')[0];
+            if (!value) return;
+
+            if (!link.getAttribute('title')) {
+                link.setAttribute('title', 'Click to copy');
+            }
+
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                var label = isMail ? 'Email address copied' : 'Phone number copied';
+                copy(value).then(function () {
+                    announce(label + ': ' + value);
+                }).catch(function () {
+                    // Copying blocked - at least surface the value to read off.
+                    announce(value);
+                });
+            });
+        });
+    })();
+
     /* ----------------------------------------------------- card spotlight -- */
     (function spotlight() {
         if (reduceMotion || !finePointer) return;
@@ -246,27 +322,6 @@
             el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
             el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
         }, { passive: true });
-    })();
-
-    /* ----------------------------------------------------- magnetic CTAs -- */
-    (function magnetic() {
-        if (reduceMotion || !finePointer) return;
-        document.querySelectorAll('.btn-magnetic').forEach(function (btn) {
-            btn.addEventListener('mousemove', function (e) {
-                var r = btn.getBoundingClientRect();
-                var x = (e.clientX - (r.left + r.width / 2)) * 0.3;
-                var y = (e.clientY - (r.top + r.height / 2)) * 0.3;
-                var max = 10;
-                x = Math.max(-max, Math.min(max, x));
-                y = Math.max(-max, Math.min(max, y));
-                btn.style.transition = 'none';
-                btn.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-            });
-            btn.addEventListener('mouseleave', function () {
-                btn.style.transition = 'transform .4s ' + getComputedStyle(document.documentElement).getPropertyValue('--ease');
-                btn.style.transform = 'translate(0,0)';
-            });
-        });
     })();
 
     /* ------------------------------------------------ branch roster tabs -- */
