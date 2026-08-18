@@ -58,6 +58,22 @@
             </div>
 
             <div class="footer-col">
+                <h4>Branches</h4>
+                <ul>
+                    @foreach ($navBranches as $navBranch)
+                        <li>
+                            @if ($navBranch->signboard)
+                                <a href="{{ route('branches.show', $navBranch) }}">{{ $navBranch->name }}</a>
+                            @else
+                                {{-- Not built yet - listed for visibility, but not clickable, so it never dead-ends on a 404. --}}
+                                <span class="footer-col__disabled">{{ $navBranch->name }}</span>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <div class="footer-col">
                 <h4>Explore</h4>
                 <ul>
                     @foreach (config('site.footer.explore') as $route => $label)

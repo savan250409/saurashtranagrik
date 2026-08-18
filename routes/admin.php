@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BranchController;
+use App\Http\Controllers\Admin\BranchSignboardController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepositRateController;
 use App\Http\Controllers\Admin\DirectorController;
@@ -36,6 +37,7 @@ Route::middleware('auth:admin')->group(function () {
         'home-videos' => HomeVideoController::class,
         'directors' => DirectorController::class,
         'branches' => BranchController::class,
+        'branch-signboards' => BranchSignboardController::class,
         'loans' => LoanController::class,
         'deposit-rates' => DepositRateController::class,
         'recurring-deposits' => RecurringDepositController::class,

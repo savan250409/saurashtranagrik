@@ -32,13 +32,22 @@
 
                         <div class="branch-row__body">
                             <h2 class="branch-row__name">
-                                {{ $branch->name }}
+                                @if ($branch->signboard)
+                                    <a href="{{ route('branches.show', $branch) }}">{{ $branch->name }}</a>
+                                @else
+                                    {{ $branch->name }}
+                                @endif
                                 @if ($isHeadOffice)
                                     <span class="branch-badge">Head Office</span>
                                 @endif
                             </h2>
                             @if ($address !== '')
                                 <p class="branch-row__addr">{{ $address }}</p>
+                            @endif
+                            @if ($branch->signboard)
+                                <a class="branch-row__more" href="{{ route('branches.show', $branch) }}">
+                                    View branch details @include('partials.icon', ['name' => 'arrow-right'])
+                                </a>
                             @endif
                         </div>
 

@@ -46,7 +46,29 @@
 
             <nav class="nav" aria-label="Primary">
                 @foreach (config('site.nav') as $route => $label)
-                    <a href="{{ route($route) }}" @class(['is-active' => request()->routeIs($route)])>{{ $label }}</a>
+                    @if ($route === 'branches' && $navBranches->isNotEmpty())
+                        <div class="nav-dropdown">
+                            <a href="{{ route('branches') }}"
+                               @class(['is-active' => request()->routeIs('branches') || request()->routeIs('branches.show')])>
+                                {{ $label }}
+                                @include('partials.icon', ['name' => 'chevron-down'])
+                            </a>
+                            <div class="nav-dropdown__panel">
+                                <div class="nav-dropdown__inner" role="menu" aria-label="All branches">
+                                    @foreach ($navBranches as $navBranch)
+                                        @if ($navBranch->signboard)
+                                            <a role="menuitem" href="{{ route('branches.show', $navBranch) }}">{{ $navBranch->name }}</a>
+                                        @else
+                                            {{-- Not built yet - listed for visibility, but not clickable, so it never dead-ends on a 404. --}}
+                                            <span role="menuitem" aria-disabled="true" class="nav-dropdown__inner-disabled">{{ $navBranch->name }}</span>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <a href="{{ route($route) }}" @class(['is-active' => request()->routeIs($route)])>{{ $label }}</a>
+                    @endif
                 @endforeach
             </nav>
 

@@ -11,8 +11,8 @@
 @php
     // Branch associate rosters - static content carried over from the original page.
     $associates = [
-        'Amreli' => ['Shri Divyeshbhai Vekariya - Branch MD', 'Shri Sanjaybhai Malaviya', 'Shri Jaysukhbhai Sorathiya', 'Shri Dipakbhai Dhanani', 'Shri Mukeshbhai Korat', 'Shri Arunbhai Der', 'Shri Hiteshbhai Khaneshar', 'Shri Dharmeshbhai Visavaliya'],
-        'Chuda' => ['Shri Arunaben Barariya -Branch MD', 'Shri Jaysukhbhai Vaghasiya', 'Shri Sonalben Gajipara', 'Shri Sangitaben Dobariya', 'Shri Bharatbhai Korat', 'Shri Ghanshyambhai Patoliya', 'Shri Dalsukhbhai Asodariya', 'Shri Kishanbhai Kathiriya', 'Shri Gordhanbhai Bhut'],
+        'Amreli' => ['Shri Divyeshbhai M. Vekariya - Branch MD', 'Shri Sanjaybhai Malaviya', 'Shri Jaysukhbhai Sorathiya', 'Shri Dipakbhai Dhanani', 'Shri Mukeshbhai Korat', 'Shri Arunbhai Der', 'Shri Hiteshbhai Khaneshar', 'Shri Dharmeshbhai Visavaliya'],
+        'Chuda' => ['Shri Arunaben Barariya - Branch MD', 'Shri Jaysukhbhai Vaghasiya', 'Shri Sonalben Gajipara', 'Shri Sangitaben Dobariya', 'Shri Bharatbhai Korat', 'Shri Ghanshyambhai Patoliya', 'Shri Dalsukhbhai Asodariya', 'Shri Kishanbhai Kathiriya', 'Shri Gordhanbhai Bhut'],
         'Visavadar' => ['Shri Prakashbhai Savaliya - Branch MD', 'Shri Hasubhai Rabadiya', 'Shri Mohitbhai Malaviya', 'Shri Rinaben Bhaliya', 'Shri Chimanbhai Rafaliya', 'Shri Hirenbhai Sojitra', 'Shri Manishaben Lakhani'],
         'Bhalgam' => ['Shri Dipakbhai Ambaliya - Branch MD', 'Shri Nitinbhai Kotadiya', 'Shri Bhupatbhai Lokadiya', 'Shri Manishbhai Pansuriya', 'Shri Jyotsanaben Godhani', 'Shri Dayaben Vaghasiya'],
     ];

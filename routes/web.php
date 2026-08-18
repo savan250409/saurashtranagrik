@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,6 +60,10 @@ Route::view('/', 'pages.index')->name('home');
 foreach ($pages as $page) {
     Route::view("/{$page}", "pages.{$page}")->name($page);
 }
+
+// One page per branch, e.g. /branches/1 - works for every branch in the
+// table automatically, not just the ones a page has been built out for.
+Route::get('/branches/{branch}', [BranchController::class, 'show'])->name('branches.show');
 
 // Backwards compatibility: permanently redirect the old .html URLs.
 Route::redirect('/index.html', '/', 301);

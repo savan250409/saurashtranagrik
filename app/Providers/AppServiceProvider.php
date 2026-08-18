@@ -28,6 +28,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Every page extends this layout, so the nav's branches dropdown
+        // always has the current list without each page needing to pass it.
+        // signboard is eager-loaded so the dropdown can tell which branches
+        // actually have a page to link to (see routes/branches.show).
+        View::composer('layouts.app', fn ($view) => $view->with('navBranches', Branch::published()->with(['signboard' => fn ($q) => $q->where('is_active', true)])->get()));
+
         View::composer('pages.index', function ($view) {
             $view->with([
                 'heroSlides' => HeroSlide::published()->get(),
@@ -46,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('pages.bord-of-directors', fn ($view) => $view->with('directors', Director::published()->get()));
 
-        View::composer('pages.branches', fn ($view) => $view->with('branches', Branch::published()->get()));
+        View::composer('pages.branches', fn ($view) => $view->with('branches', Branch::published()->with(['signboard' => fn ($q) => $q->where('is_active', true)])->get()));
 
         View::composer('pages.loan', fn ($view) => $view->with('loans', Loan::published()->get()));
 

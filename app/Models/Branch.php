@@ -19,4 +19,9 @@ class Branch extends Model
     {
         return $query->where('is_active', true)->orderBy('sort_order')->orderBy('id');
     }
+
+    public function signboard(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(BranchSignboard::class);
+    }
 }
