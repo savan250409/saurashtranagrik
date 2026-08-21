@@ -1,5 +1,7 @@
 @php
-    $branches = \App\Models\Branch::orderBy('name')->get(['id', 'name']);
+    $takenIds = \App\Models\BranchSignboard::when($record->exists, fn ($q) => $q->where('id', '!=', $record->id))
+        ->pluck('branch_id')->toArray();
+    $branches = \App\Models\Branch::orderBy('sort_order')->orderBy('name')->get(['id', 'name']);
     $fin = $record->financial_summary ?? [];
     $rowsText = fn (array $rows) => collect($rows)
         ->map(fn ($row) => trim(($row[0] ?? '').' | '.($row[1] ?? '')))
@@ -12,7 +14,11 @@
     <select id="branch_id" name="branch_id" required>
         <option value="">Select a branch&hellip;</option>
         @foreach ($branches as $branch)
-            <option value="{{ $branch->id }}" @selected((string) old('branch_id', $record->branch_id ?? '') === (string) $branch->id)>{{ $branch->name }}</option>
+            <option value="{{ $branch->id }}"
+                    @selected((string) old('branch_id', $record->branch_id ?? '') === (string) $branch->id)
+                    @disabled(in_array($branch->id, $takenIds))>
+                {{ $branch->name }}{{ in_array($branch->id, $takenIds) ? ' (has signboard)' : '' }}
+            </option>
         @endforeach
     </select>
 </div>

@@ -35,7 +35,7 @@
                     <a href="{{ route('branches') }}">Branches</a> &rsaquo;
                     {{ $branch->name }}
                 </p>
-                <h1 class="signboard-hero__title">{{ $branch->name }} Head Office</h1>
+                <h1 class="signboard-hero__title">{{ $branch->name }} Office</h1>
                 <span class="signboard-hero__year">Established Year: {{ $signboard['established_year'] }}</span>
 
                 @if ($address !== '' || $branch->phone || $branch->mobile)
@@ -135,12 +135,20 @@
                         <h2>Financial summary</h2>
                     </div>
 
+                    @php
+                        $asOf = $signboard['financial_summary']['as_of'] ?? '';
+                        $gujaratiDate = $asOf ? strtr($asOf, [
+                            '0' => '૦', '1' => '૧', '2' => '૨', '3' => '૩', '4' => '૪',
+                            '5' => '૫', '6' => '૬', '7' => '૭', '8' => '૮', '9' => '૯',
+                        ]) : '';
+                        $dateSuffix = $gujaratiDate ? "({$gujaratiDate} સુધીનું)" : '';
+                    @endphp
                     @foreach ([
-                        'નફા નુકસાન ખાતું (૩૧/૦૩/૨૦૨૫ સુધીનું)' => [
+                        "નફા નુકસાન ખાતું {$dateSuffix}" => [
                             'આવક' => $signboard['financial_summary']['income'],
                             'જાવક' => $signboard['financial_summary']['expenses'],
                         ],
-                        'પાકું સરવૈયું (૩૧/૦૩/૨૦૨૫ સુધીનું)' => [
+                        "પાકું સરવૈયું {$dateSuffix}" => [
                             'મૂડી - દેવા' => $signboard['financial_summary']['liabilities'],
                             'મિલકત - લેણાં' => $signboard['financial_summary']['assets'],
                         ],

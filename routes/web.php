@@ -61,8 +61,17 @@ foreach ($pages as $page) {
     Route::view("/{$page}", "pages.{$page}")->name($page);
 }
 
-// One page per branch, e.g. /branches/1 - works for every branch in the
-// table automatically, not just the ones a page has been built out for.
+// Static Bagasara Head Office page - declared before {branch} so it matches first
+Route::get('/branches/bagasara-head-office', fn () => view('pages.bagasara-head-office'))->name('branches.bagasara-head-office');
+
+// Legacy: /branches/4 → /branches/chuda (permanent redirect)
+Route::get('/branches/{id}', function ($id) {
+    $branch = \App\Models\Branch::find($id);
+    abort_unless($branch && $branch->is_active, 404);
+    return redirect()->route('branches.show', [$branch], 301);
+})->where('id', '[0-9]+');
+
+// Slug-based branch detail page, e.g. /branches/chuda
 Route::get('/branches/{branch}', [BranchController::class, 'show'])->name('branches.show');
 
 // Backwards compatibility: permanently redirect the old .html URLs.

@@ -15,6 +15,30 @@
     <section class="section">
         <div class="wrap">
             <div class="branch-index reveal-group">
+                {{-- Bagasara Head Office always appears first --}}
+                <article class="branch-row" style="--accent: var(--c1)">
+                    <span class="branch-row__num" aria-hidden="true">01</span>
+                    <div class="branch-row__body">
+                        <h2 class="branch-row__name">
+                            <a href="{{ route('branches.bagasara-head-office') }}">Bagasara Head Office</a>
+                        </h2>
+                        <p class="branch-row__addr">Samarth Saurashtra Building, Amarpara, Bagasara, Dist. - Amreli</p>
+                        <a class="branch-row__more" href="{{ route('branches.bagasara-head-office') }}">
+                            View branch details @include('partials.icon', ['name' => 'arrow-right'])
+                        </a>
+                    </div>
+                    <div class="branch-row__contacts">
+                        <a class="branch-chip" href="tel:02796220525" target="_blank" rel="noopener">
+                            @include('partials.icon', ['name' => 'phone'])
+                            (02796) 220 525
+                        </a>
+                        <a class="branch-chip" href="tel:9484529400" target="_blank" rel="noopener">
+                            @include('partials.icon', ['name' => 'mobile'])
+                            94845 29400
+                        </a>
+                    </div>
+                </article>
+
                 @foreach ($branches as $branch)
                     @php
                         // The Privacy Policy names the head office as
@@ -28,7 +52,7 @@
                     @endphp
 
                     <article class="branch-row" style="--accent: var(--{{ $branch->color_class }})">
-                        <span class="branch-row__num" aria-hidden="true">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        <span class="branch-row__num" aria-hidden="true">{{ str_pad((string) ($loop->iteration + 1), 2, '0', STR_PAD_LEFT) }}</span>
 
                         <div class="branch-row__body">
                             <h2 class="branch-row__name">
@@ -36,9 +60,6 @@
                                     <a href="{{ route('branches.show', $branch) }}">{{ $branch->name }}</a>
                                 @else
                                     {{ $branch->name }}
-                                @endif
-                                @if ($isHeadOffice)
-                                    <span class="branch-badge">Head Office</span>
                                 @endif
                             </h2>
                             @if ($address !== '')
