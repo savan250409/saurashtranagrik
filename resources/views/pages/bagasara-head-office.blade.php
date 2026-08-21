@@ -128,19 +128,21 @@
     <section class="section section--tight section--subtle">
         <div class="wrap">
             <div class="section-head reveal">
-                <h2>છેલ્લા ૫ વર્ષની વિકાસની કડી</h2>
+                <h2 style="display:inline-block;background:var(--brand);color:#fff;padding:10px 28px;border-radius:6px;letter-spacing:.01em">
+                    છેલ્લા ૫ વર્ષની વિકાસની કેડી
+                </h2>
             </div>
             <div class="card reveal" style="overflow-x:auto">
                 <div class="card-body" style="padding:0">
-                    <table style="width:100%;border-collapse:collapse;min-width:600px;font-family:inherit">
+                    <table style="width:100%;border-collapse:collapse;min-width:600px;font-family:inherit;border:1px solid #000">
                         <thead>
                             <tr style="background:var(--brand);color:#fff">
-                                <th style="padding:12px 14px;text-align:center;font-weight:600;white-space:nowrap">વર્ષ</th>
-                                <th style="padding:12px 14px;text-align:right;font-weight:600;white-space:nowrap">સભ્ય સંખ્યા</th>
-                                <th style="padding:12px 14px;text-align:right;font-weight:600;white-space:nowrap">શેર ભંડોળ</th>
-                                <th style="padding:12px 14px;text-align:right;font-weight:600;white-space:nowrap">થાપણ</th>
-                                <th style="padding:12px 14px;text-align:right;font-weight:600;white-space:nowrap">ધિરાણ</th>
-                                <th style="padding:12px 14px;text-align:right;font-weight:600;white-space:nowrap">નફો</th>
+                                <th style="padding:12px 14px;text-align:center;font-weight:600;white-space:nowrap;border-right:1px solid #000">વર્ષ</th>
+                                <th style="padding:12px 14px;text-align:right;font-weight:600;white-space:nowrap;border-right:1px solid #000">સભ્ય સંખ્યા</th>
+                                <th style="padding:12px 14px;text-align:right;font-weight:600;white-space:nowrap;border-right:1px solid #000">શેર ભંડોળ</th>
+                                <th style="padding:12px 14px;text-align:right;font-weight:600;white-space:nowrap;border-right:1px solid #000">થાપણ</th>
+                                <th style="padding:12px 14px;text-align:right;font-weight:600;white-space:nowrap;border-right:1px solid #000">ધિરાણ</th>
+                                <th style="padding:12px 14px;text-align:right;font-weight:600;white-space:nowrap;border-right:1px solid #000">નફો</th>
                                 <th style="padding:12px 14px;text-align:center;font-weight:600;white-space:nowrap">ઓડિટ વર્ગ</th>
                             </tr>
                         </thead>
@@ -152,14 +154,15 @@
                                 ['૨૪-૨૫', '૧૧,૮૯૦', '૩,૨૫,૭૦,૮૦૦.૦૦',   '૬૩,૬૩,૯૪,૪૯૦.૬૦', '૧,૦૦,૩૦,૦૯,૦૮૪.૦૦', '૧,૨૩,૦૩,૩૬૮.૩૩',   'અ'],
                                 ['૨૫-૨૬', '૧૩૫૫૨',  '૩,૯૩,૯૮,૫૦૦.૦૦', '૧,૧૯,૮૫,૦૯,૩૬૦.૬૦', '૧,૪૮,૩૩,૦૪,૯૨૨.૦૦', '૨,૧૧,૯૮,૫૨૫.૮૨',   '-'],
                             ] as $i => $row)
+                                @php $bb = $loop->last ? '' : 'border-bottom:1px solid #000;'; @endphp
                                 <tr style="{{ $i % 2 === 0 ? 'background:var(--surface)' : 'background:var(--surface-alt,var(--surface))' }}">
-                                    <td style="padding:11px 14px;text-align:center;font-weight:600;border-bottom:1px solid var(--border,#e5e7eb)">{{ $row[0] }}</td>
-                                    <td style="padding:11px 14px;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">{{ $row[1] }}</td>
-                                    <td style="padding:11px 14px;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">{{ $row[2] }}</td>
-                                    <td style="padding:11px 14px;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">{{ $row[3] }}</td>
-                                    <td style="padding:11px 14px;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">{{ $row[4] }}</td>
-                                    <td style="padding:11px 14px;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">{{ $row[5] }}</td>
-                                    <td style="padding:11px 14px;text-align:center;border-bottom:1px solid var(--border,#e5e7eb)">{{ $row[6] }}</td>
+                                    <td style="padding:11px 14px;text-align:center;font-weight:600;{{ $bb }}border-right:1px solid #000">{{ $row[0] }}</td>
+                                    <td style="padding:11px 14px;text-align:right;{{ $bb }}border-right:1px solid #000">{{ $row[1] }}</td>
+                                    <td style="padding:11px 14px;text-align:right;{{ $bb }}border-right:1px solid #000">{{ $row[2] }}</td>
+                                    <td style="padding:11px 14px;text-align:right;{{ $bb }}border-right:1px solid #000">{{ $row[3] }}</td>
+                                    <td style="padding:11px 14px;text-align:right;{{ $bb }}border-right:1px solid #000">{{ $row[4] }}</td>
+                                    <td style="padding:11px 14px;text-align:right;{{ $bb }}border-right:1px solid #000">{{ $row[5] }}</td>
+                                    <td style="padding:11px 14px;text-align:center;{{ $bb }}">{{ $row[6] }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
