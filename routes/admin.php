@@ -30,6 +30,14 @@ Route::post('login', [AuthController::class, 'login'])->name('admin.login.attemp
 Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
+    Route::post('clear-cache', function () {
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        return back()->with('status', 'All caches cleared successfully.');
+    })->name('admin.clear-cache');
+
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     $modules = [

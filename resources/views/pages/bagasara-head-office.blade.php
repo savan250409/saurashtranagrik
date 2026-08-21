@@ -63,12 +63,12 @@
         </div>
     </div>
 
-    {{-- Officers with designation --}}
+    {{-- Head office staff: officers + members merged --}}
     <section class="section section--tight section--subtle">
         <div class="wrap">
             <div class="section-head reveal">
                 <span class="eyebrow">Shri Saurashtra Nagrik Sharafi Sahakari Mandali Ltd.</span>
-                <h2>Board of Directors</h2>
+                <h2>Head office staff</h2>
             </div>
             <div class="lead-grid reveal-group">
                 @foreach ($officers as $i => [$role, $name])
@@ -77,12 +77,17 @@
                         <h3 class="lead-card__name">{{ $name }}</h3>
                     </article>
                 @endforeach
+                @foreach ($members as $i => $name)
+                    <article class="lead-card" style="--accent: var(--c{{ (($i + count($officers)) % 6) + 1 }})">
+                        <h3 class="lead-card__name">{{ $name }}</h3>
+                    </article>
+                @endforeach
             </div>
         </div>
     </section>
 
     {{-- Management team --}}
-    <section class="section section--tight section--subtle">
+    <section class="section section--tight" style="background:#f4f1ee">
         <div class="wrap">
             <div class="section-head reveal">
                 <span class="eyebrow">Management</span>
@@ -101,26 +106,6 @@
                         <h3 class="lead-card__name">{{ $name }}</h3>
                     </article>
                 @endforeach
-            </div>
-        </div>
-    </section>
-
-    {{-- Regular members without designation --}}
-    <section class="section section--tight">
-        <div class="wrap">
-            <div class="card reveal">
-                <div class="card-body">
-                    <div class="roster-list">
-                        @foreach ($members as $name)
-                            <div class="roster-person">
-                                <span class="roster-avatar" aria-hidden="true">{{ $initials($name) }}</span>
-                                <span class="roster-person__text">
-                                    <span class="roster-person__name">{{ $name }}</span>
-                                </span>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
             </div>
         </div>
     </section>

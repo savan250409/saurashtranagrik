@@ -57,7 +57,7 @@
                                 <div class="nav-dropdown__inner" role="menu" aria-label="All branches">
                                     <a role="menuitem" href="{{ route('branches.bagasara-head-office') }}"
                                        @class(['is-active' => request()->routeIs('branches.bagasara-head-office')])>Bagasara Head Office</a>
-                                    @foreach ($navBranches as $navBranch)
+                                    @foreach ($navBranches->reject(fn ($b) => \Illuminate\Support\Str::slug($b->name) === 'bagasara-head-office') as $navBranch)
                                         @if ($navBranch->signboard)
                                             <a role="menuitem" href="{{ route('branches.show', $navBranch) }}"
                                                @class(['is-active' => request()->routeIs('branches.show') && isset($branch) && $navBranch->is($branch)])>{{ $navBranch->name }}</a>

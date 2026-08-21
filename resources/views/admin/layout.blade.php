@@ -47,6 +47,13 @@
             <h1>@yield('heading', 'Dashboard')</h1>
             <div class="checkline">
                 <span class="who">{{ auth('admin')->user()?->email }}</span>
+                <form method="POST" action="{{ route('admin.clear-cache') }}">
+                    @csrf
+                    <button class="btn btn-sm" type="submit" style="background:#e67e22;color:#fff;border-color:#e67e22"
+                            onclick="return confirm('Clear all caches?')">
+                        Clear Cache
+                    </button>
+                </form>
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <button class="btn btn-sm" type="submit">Log out</button>
