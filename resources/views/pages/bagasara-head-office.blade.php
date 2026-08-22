@@ -13,12 +13,12 @@
 
     $members = [
         'Shri Dipakbhai V. Ambaliya',
-        'Shri Bhaveshbhai L. Trapasiya',
+        'Shri Bhaveshbhai L. Traapasiya',
         'Shri Bhavanaben V. Satasiya',
-        'Shri Pravinbhai J. Kasavala',
+        'Shri Pravinbhai J. Kasawala',
         'Shri Hiteshbhai R. Tereya',
         'Shri Arunaben P. Babariya',
-        'Shri Amitabhai M. Khimasuriya',
+        'Shri Amitabhai M. Khimsuriya',
     ];
 
     $initials = function (string $name): string {
@@ -67,8 +67,7 @@
     <section class="section section--tight section--subtle">
         <div class="wrap">
             <div class="section-head reveal">
-                <span class="eyebrow">Shri Saurashtra Nagrik Sharafi Sahakari Mandali Ltd.</span>
-                <h2>Head office staff</h2>
+                <h2>Board of Directors</h2>
             </div>
             <div class="lead-grid reveal-group">
                 @foreach ($officers as $i => [$role, $name])
@@ -90,16 +89,15 @@
     <section class="section section--tight" style="background:#f4f1ee">
         <div class="wrap">
             <div class="section-head reveal">
-                <span class="eyebrow">Management</span>
-                <h2>Management team</h2>
+                <h2>Head Office Staff</h2>
             </div>
             <div class="lead-grid reveal-group">
                 @foreach ([
                     ['General Manager',     'Shri Jaydip Singh Rathod'],
-                    ['Financial Manager',   'Shri Chiragbhai Kanapariya'],
-                    ['Development Manager', 'Shri Alpeshbhai Sathvara'],
+                    ['Financial Manager',   'Shri Chiragbhai Kanpariya'],
+                    ['Development Manager', 'Shri Alpeshbhai Sathwara'],
                     ['Account Manager',     'Shri Ajaybhai Nakum'],
-                    ['Branch Manager',      'Shri Dhanjibhai Mitaliya'],
+                    ['Branch Manager',      'Shri Ghanshayambhai Mitaliya'],
                 ] as $i => [$role, $name])
                     <article class="lead-card" style="--accent: var(--c{{ ($i % 6) + 1 }})">
                         <span class="lead-card__role">{{ $role }}</span>
