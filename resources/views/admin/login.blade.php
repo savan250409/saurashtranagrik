@@ -19,6 +19,18 @@
         <h1>Admin Panel</h1>
         <p class="sub">Shree Saurashtra Nagrik Sharafi Mandali Ltd.</p>
 
+        @if (session('status'))
+            <div class="alert alert-ok">{{ session('status') }}</div>
+        @endif
+
+        @if (session('success'))
+            <div class="alert alert-ok">{{ session('success') }}</div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-err">{{ session('error') }}</div>
+        @endif
+
         @if ($errors->any())
             <div class="alert alert-err">{{ $errors->first() }}</div>
         @endif
@@ -41,5 +53,29 @@
         <button class="btn btn-primary" type="submit">Log in</button>
     </form>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const alerts = document.querySelectorAll('.alert');
+    if (alerts.length > 0) {
+        setTimeout(function () {
+            alerts.forEach(function (alert) {
+                alert.style.transition = 'opacity 0.6s ease, max-height 0.6s ease, margin 0.6s ease, padding 0.6s ease';
+                alert.style.overflow = 'hidden';
+                alert.style.opacity = '0';
+                alert.style.maxHeight = '0';
+                alert.style.paddingTop = '0';
+                alert.style.paddingBottom = '0';
+                alert.style.marginTop = '0';
+                alert.style.marginBottom = '0';
+                setTimeout(function () {
+                    if (alert && alert.parentNode) {
+                        alert.remove();
+                    }
+                }, 650);
+            });
+        }, 5000);
+    }
+});
+</script>
 </body>
 </html>

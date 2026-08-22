@@ -66,6 +66,18 @@
                 <div class="alert alert-ok">{{ session('status') }}</div>
             @endif
 
+            @if (session('success'))
+                <div class="alert alert-ok">{{ session('success') }}</div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-err">{{ session('error') }}</div>
+            @endif
+
+            @if (session('message'))
+                <div class="alert alert-ok">{{ session('message') }}</div>
+            @endif
+
             @if ($errors->any())
                 <div class="alert alert-err">
                     Please correct the following:
@@ -81,5 +93,79 @@
         </div>
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const alerts = document.querySelectorAll('.alert');
+    if (alerts.length > 0) {
+        setTimeout(function () {
+            alerts.forEach(function (alert) {
+                alert.style.transition = 'opacity 0.6s ease, max-height 0.6s ease, margin 0.6s ease, padding 0.6s ease';
+                alert.style.overflow = 'hidden';
+                alert.style.opacity = '0';
+                alert.style.maxHeight = '0';
+                alert.style.paddingTop = '0';
+                alert.style.paddingBottom = '0';
+                alert.style.marginTop = '0';
+                alert.style.marginBottom = '0';
+                setTimeout(function () {
+                    if (alert && alert.parentNode) {
+                        alert.remove();
+                    }
+                }, 650);
+            });
+        }, 5000);
+    }
+});
+
+function previewUploadImage(input, previewId, isImage) {
+    const file = input.files && input.files[0];
+    const newWrap = document.getElementById(previewId + '_new');
+    const imgElem = document.getElementById(previewId + '_img');
+    const nameElem = document.getElementById(previewId + '_name');
+    const currentWrap = document.getElementById(previewId + '_current');
+    const hintElem = document.getElementById(previewId + '_hint');
+
+    if (file) {
+        if (nameElem) {
+            nameElem.textContent = file.name;
+        }
+        if (isImage && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                if (imgElem) {
+                    imgElem.src = e.target.result;
+                }
+                if (newWrap) {
+                    newWrap.style.display = 'flex';
+                }
+            };
+            reader.readAsDataURL(file);
+        } else {
+            if (newWrap) {
+                newWrap.style.display = 'flex';
+            }
+        }
+        if (currentWrap) {
+            currentWrap.style.opacity = '0.5';
+        }
+        if (hintElem) {
+            hintElem.textContent = 'Selected new file will replace the current file upon saving.';
+        }
+    } else {
+        if (newWrap) {
+            newWrap.style.display = 'none';
+        }
+        if (imgElem) {
+            imgElem.src = '';
+        }
+        if (currentWrap) {
+            currentWrap.style.opacity = '1';
+        }
+        if (hintElem) {
+            hintElem.textContent = 'Leave empty to keep the current file.';
+        }
+    }
+}
+</script>
 </body>
 </html>

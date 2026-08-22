@@ -28,7 +28,7 @@
     <input id="established_year" type="text" name="established_year" value="{{ old('established_year', $record->established_year) }}" maxlength="20" placeholder="2000">
 </div>
 
-@include('admin.fields._upload', ['name' => 'building_photo', 'label' => 'Building photo'])
+@include('admin.fields._upload', ['name' => 'building_photo', 'label' => 'Building photo', 'small' => true])
 
 <div class="field full">
     <label for="about_text">About this branch <span class="muted">(one paragraph per line)</span></label>

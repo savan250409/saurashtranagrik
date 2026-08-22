@@ -131,7 +131,15 @@ abstract class BaseCrudController extends Controller
 
     public function destroy(int $id): RedirectResponse
     {
-        $this->model::findOrFail($id)->delete();
+        $record = $this->model::findOrFail($id);
+
+        foreach ($this->uploads as $field => $folder) {
+            if (! empty($record->{$field})) {
+                $this->deleteUpload($record->{$field});
+            }
+        }
+
+        $record->delete();
 
         return redirect()->route("admin.{$this->key}.index")
             ->with('status', "{$this->singular} deleted.");
@@ -159,6 +167,9 @@ abstract class BaseCrudController extends Controller
             $file = $request->file($field);
 
             if ($file instanceof UploadedFile) {
+                if ($record && ! empty($record->{$field})) {
+                    $this->deleteUpload($record->{$field});
+                }
                 $data[$field] = $this->storeUpload($file, $folder);
             } else {
                 unset($data[$field]);
@@ -166,6 +177,26 @@ abstract class BaseCrudController extends Controller
         }
 
         return $data;
+    }
+
+    /** Deletes an existing uploaded file from the public directory if it exists. */
+    protected function deleteUpload(?string $path): void
+    {
+        if (! $path) {
+            return;
+        }
+
+        // Safeguard: only remove files located inside the uploads directory, protecting static assets
+        $uploadDir = config('admin.upload_dir', 'uploads');
+        if (! str_starts_with($path, $uploadDir.'/')) {
+            return;
+        }
+
+        $absolute = public_path($path);
+
+        if (is_file($absolute)) {
+            @unlink($absolute);
+        }
     }
 
     /** Writes into public/uploads/<folder> and returns the public-relative path. */
